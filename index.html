@@ -881,8 +881,8 @@
 
             answerOptionsDiv.innerHTML = ''; // Clear previous options
 
-            const shuffledOptions = shuffleArray([...question.answers]);
-            const originalCorrectAnswerText = question.answers[question.correctAnswerIndex];
+            const shuffledOptions = shuffleArray([...question.options]);
+            const originalCorrectAnswerText = question.options[question.correctAnswerIndex];
 
             shuffledOptions.forEach((optionText) => {
                 const button = document.createElement('button');
