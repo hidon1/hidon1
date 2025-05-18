@@ -47,7 +47,7 @@
 
 
         .container {
-    background-color: #ffffff;
+    background-color: transparent;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -357,7 +357,7 @@
          /* Basic responsiveness */
          @media (max-width: 870px) { /* Adjusted breakpoint based on new max-width + padding */
               .container {
-    background-color: #ffffff;
+    background-color: transparent;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -376,7 +376,7 @@
          @media (max-width: 650px) { /* Adjusted breakpoint */
              body { padding: 8px; } /* Adjusted padding */
              .container {
-    background-color: #ffffff;
+    background-color: transparent;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -449,7 +449,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 } /* Adjusted padding */
               .container {
-    background-color: #ffffff;
+    background-color: transparent;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -740,7 +740,9 @@
 
         // Initialize the quiz - show intro for the first stage
         function initQuiz() {
-             console.log("--- initQuiz called ---");
+             
+  backgroundOverlay.style.backgroundImage = \"url('background-stage-1.png')\";
+console.log("--- initQuiz called ---");
 
             // Reset total score only at the very start of the quiz
             totalQuizScore = 0; // Reset total score
