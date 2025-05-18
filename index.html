@@ -47,7 +47,7 @@
 
 
         .container {
-    background-color: transparent;
+    background-color: #ffffff;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -357,7 +357,7 @@
          /* Basic responsiveness */
          @media (max-width: 870px) { /* Adjusted breakpoint based on new max-width + padding */
               .container {
-    background-color: transparent;
+    background-color: #ffffff;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -376,7 +376,7 @@
          @media (max-width: 650px) { /* Adjusted breakpoint */
              body { padding: 8px; } /* Adjusted padding */
              .container {
-    background-color: transparent;
+    background-color: #ffffff;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -449,7 +449,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 } /* Adjusted padding */
               .container {
-    background-color: transparent;
+    background-color: #ffffff;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -483,6 +483,16 @@
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<style>
+  body.stage-1 {
+    background-image: url('https://hidon1.github.io/hidon1/background-stage-1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+</style>
+
 </head>
 <body>
 <div id="background-overlay"></div>
@@ -740,9 +750,7 @@
 
         // Initialize the quiz - show intro for the first stage
         function initQuiz() {
-             
-  backgroundOverlay.style.backgroundImage = \"url('background-stage-1.png')\";
-console.log("--- initQuiz called ---");
+             console.log("--- initQuiz called ---");
 
             // Reset total score only at the very start of the quiz
             totalQuizScore = 0; // Reset total score
@@ -1394,18 +1402,33 @@ function loadStageFromFile(stageId, filePath, theme) {
 }
 
 // Load all 4 stages
-
 Promise.all([
-  loadStageFromFile(1, "1.json", "שלב א: שאלות ראשונות"),
-  loadStageFromFile(2, "2.json", "שלב ב: שאלות מתקדמות"),
-  loadStageFromFile(3, "3.json", "שלב ג: דמויות ומלכים"),
-  loadStageFromFile(4, "4.json", "שלב ד: מאורעות וזמנים"),
-  loadStageFromFile(5, "5.json", "שלב ה: שאלות קשות"),
-  loadStageFromFile(6, "6.json", "שלב ו: שאלות סיכום")
+  loadStageFromFile(1, "https://hidon1.github.io/hidon1/1.json", "שלב א: שאלות ראשונות"),
+  loadStageFromFile(2, "https://hidon1.github.io/hidon1/2.json", "שלב ב: שאלות מתקדמות"),
+  loadStageFromFile(3, "https://hidon1.github.io/hidon1/3.json", "שלב ג: דמויות ומלכים"),
+  loadStageFromFile(4, "https://hidon1.github.io/hidon1/4.json", "שלב ד: מאורעות וזמנים"),
+  loadStageFromFile(5, "https://hidon1.github.io/hidon1/5.json", "שלב ה: המשך"),
+  loadStageFromFile(6, "https://hidon1.github.io/hidon1/6.json", "שלב ו: סיום")
 ]).then(() => {
-  console.log("כל השלבים נטענו בהצלחה");
-  quizData[0].background_image = "background-stage-1.png";
+  console.log("כל ששת השלבים נטענו בהצלחה");
 });
 </script>
+
+<script>
+  function applyStageBackground(stageIndex) {
+    document.body.classList.remove('stage-1');
+    if (stageIndex === 0) {
+      document.body.classList.add('stage-1');
+    }
+  }
+
+  // Hook into stage start function (assumes a global startStage exists)
+  const originalStartStage = window.startStage;
+  window.startStage = function(index) {
+    applyStageBackground(index);
+    return originalStartStage(index);
+  };
+</script>
+
 </body>
 </html>
