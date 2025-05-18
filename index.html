@@ -484,14 +484,7 @@
 </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-<style>
-  body.stage-1 {
-    background-image: url('https://hidon1.github.io/hidon1/background-stage-1.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-</style>
+
 
 </head>
 <body>
@@ -654,8 +647,7 @@
                  backgroundOverlay.style.backgroundImage = `url('${quizData[currentStageIndex].background_image}')`;
              } else {
                  // Fallback or clear background if no image defined for the stage
-                 backgroundOverlay.style.backgroundImage = (currentStageIndex === 0)
-        ? "url('background-stage-1.png')" 
+                 backgroundOverlay.style.backgroundImage = (currentStageIndex === 0) ? "url('background-stage-1.png')" 
         : '';
              }
         }
