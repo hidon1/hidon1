@@ -654,7 +654,9 @@
                  backgroundOverlay.style.backgroundImage = `url('${quizData[currentStageIndex].background_image}')`;
              } else {
                  // Fallback or clear background if no image defined for the stage
-                 backgroundOverlay.style.backgroundImage = ''; // Clears the background
+                 backgroundOverlay.style.backgroundImage = (currentStageIndex === 0)
+        ? "url('background-stage-1.png')" 
+        : '';
              }
         }
 
@@ -1428,40 +1430,6 @@ Promise.all([
     applyStageBackground(index);
     return originalStartStage(index);
   };
-</script>
-
-
-<script>
-const jsonFiles = ["1.json", "2.json", "3.json", "4.json", "5.json", "6.json"];
-let allQuestions = [];
-
-async function loadAllJSON() {
-    const promises = jsonFiles.map(file => fetch(file)
-        .then(response => {
-            if (!response.ok) throw new Error("Failed to load " + file);
-            return response.json();
-        })
-        .catch(err => {
-            console.error("Error loading", file, err);
-            return [];
-        }));
-    const loaded = await Promise.all(promises);
-    allQuestions = loaded.flat();
-    console.log("Loaded questions:", allQuestions.length);
-}
-
-// Call JSON loading as soon as script loads
-loadAllJSON();
-
-// Set background image for stage 1
-function setStage1Background() {
-    const overlay = document.getElementById("background-overlay");
-    if (overlay) {
-        overlay.style.backgroundImage = "url('background-stage-1.png')";
-    }
-}
-
-// You can call setStage1Background() at the beginning of Stage 1
 </script>
 
 </body>
