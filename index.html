@@ -502,7 +502,7 @@ body {
     z-index: 10;
 }
 #circular-timer svg {
-    transform: rotate(-90deg);
+    transform: rotate(0deg);
 }
 #circular-timer circle {
     fill: none;
@@ -1539,6 +1539,32 @@ function setBackgroundForCurrentStage() {
   } else {
     backgroundOverlay.style.backgroundImage = "";
   }
+}
+</script><script>
+function startCircularTimer(duration, onComplete) {
+    const textElement = document.getElementById("timer-text");
+    const progressCircle = document.querySelector(".progress");
+    const radius = 45;
+    const circumference = 2 * Math.PI * radius;
+    let remaining = duration;
+    let startTime = Date.now();
+
+    function update() {
+        let elapsed = (Date.now() - startTime) / 1000;
+        let current = Math.max(duration - elapsed, 0);
+        let offset = circumference * (1 - current / duration);
+        progressCircle.style.strokeDashoffset = offset;
+        textElement.textContent = Math.ceil(current);
+        if (current > 0) {
+            requestAnimationFrame(update);
+        } else {
+            if (onComplete) onComplete();
+        }
+    }
+
+    progressCircle.style.strokeDasharray = circumference;
+    progressCircle.style.strokeDashoffset = 0;
+    requestAnimationFrame(update);
 }
 </script></body>
 </html>
