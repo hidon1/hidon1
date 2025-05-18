@@ -533,8 +533,17 @@
 <button id="advanced-stage-button">התחל שלב הבא</button>
 </div>
 <div class="quiz-section hidden" id="quiz-area">
-<div id="timer-bar-container">
-<div id="timer-bar"></div>
+
+    <div id="timer-container" style="width:60px; height:60px; position:relative;">
+      <svg width="60" height="60" viewBox="0 0 36 36">
+        <circle cx="18" cy="18" r="16" fill="none" stroke="#ecf0f1" stroke-width="2"></circle>
+        <circle id="timer-circle" cx="18" cy="18" r="16" fill="none" stroke="#2ecc71" stroke-width="2"
+                stroke-dasharray="100, 100" stroke-linecap="round" transform="rotate(-90 18 18)">
+        </circle>
+        <text id="timer-text" x="18" y="21" font-size="8" text-anchor="middle" fill="#34495e">20</text>
+      </svg>
+    </div>
+    
 </div>
 <div id="question-text"></div>
 <div id="answer-options">
@@ -560,7 +569,7 @@
         const quizData = [];
 
         // Array to store points per stage (index 0 is Stage 1, index 1 is Stage 2, etc.)
-        const pointsPerStage = [5, 5, 5]; // Add more values here for additional stages
+        const pointsPerStage = [5, 5, 5, 5, 5, 5]; // Add more values here for additional stages
 
         // Get references to HTML elements
         // New: Reference to initial intro screen and button
@@ -1052,322 +1061,20 @@
             updateTimerDisplay();
         }
 
-        function updateTimerDisplay() {
-            /* console.log("updateTimerDisplay called, timeLeft:", timeLeft); // Commented out to reduce log spam */
-            timeLeftSpan.textContent = timeLeft;
+        
+function updateTimerDisplay() {
+    const timerText = document.getElementById('timer-text');
+    const timerCircle = document.getElementById('timer-circle');
 
-            const percentage = (timeLeft / TIME_PER_QUESTION) * 100;
-            timerBar.style.width = percentage + '%';
-
-            timerBar.classList.remove('warning', 'critical');
-            if (timeLeft <= 5 && timeLeft > 0) {
-                timerBar.classList.add('warning');
-                 if (timeLeft === 5) { /* play warning sound */ }
-            } else if (timeLeft <= 0) {
-                 timerBar.classList.add('critical');
-            } else {
-                 timerBar.style.backgroundColor = ''; /* Reset to default if not warning/critical */
-            }
-        }
-
-
-        function handleTimeout() {
-            console.log("--- handleTimeout called for question index:", currentQuestionIndexInStage, "---");
-             stopTimer(); // Ensure timer is stopped immediately on timeout event firing
-
-            // Disable all buttons including skip button
-            disableAnswerAndSkipButtons();
-
-            // --- No text feedback here, just highlight ---
-            const question = selectedQuestionsForStage[currentQuestionIndexInStage];
-            // Highlight the correct answer button visually on timeout
-             Array.from(answerOptionsDiv.children).forEach(button => {
-                if (button.dataset.correct === 'true') {
-                     button.style.backgroundColor = '#2ecc71';
-                } else {
-                     button.style.backgroundColor = '#e74c3c'; // Mark others red
-                }
-            });
-            // Score does NOT increase on timeout (already handled by not adding POINTS_PER_QUESTION)
-             // correctOrSkippedCount is NOT incremented for timeouts (they count as incorrect for passing)
-
-             updateDashboard(); // Update dashboard (score doesn't change, but question # will)
-            // TODO: Play timeout sound
-
-            console.log("Setting timeout (" + ANSWER_HIGHLIGHT_DELAY + "ms) after timeout to display next question...");
-            setTimeout(() => {
-                 console.log("--- Timeout callback executing (handleTimeout) ---");
-                 // Reset button styles before clearing content for safety
-                 Array.from(answerOptionsDiv.children).forEach(button => {
-                     button.style.backgroundColor = '';
-                 });
-                 // Re-enable buttons is done in displayQuestion when new question is loaded
-                currentQuestionIndexInStage++;
-                displayQuestion(); // Move to next question
-                 // feedbackDiv remains hidden
-            }, ANSWER_HIGHLIGHT_DELAY); // Use specified delay
-        }
-
-        // Update dashboard display
-        function updateDashboard() {
-             /* console.log("updateDashboard called. Stage:", currentStageIndex + 1, "Q Index:", currentQuestionIndexInStage + 1, "Stage Score:", stageScore, "Total Score:", totalQuizScore); // Commented out to reduce log spam */
-             currentStageSpan.textContent = currentStageIndex + 1;
-             currentStageThemeSpan.textContent = quizData[currentStageIndex].theme;
-             currentQuestionNumSpan.textContent = currentQuestionIndexInStage + 1; // Current question number (1-based)
-             totalStageQuestionsSpan.textContent = QUESTIONS_PER_STAGE; // Total questions for the stage (10)
-             stageScoreSpan.textContent = stageScore; // Display current stage score
-             totalQuizScoreSpan.textContent = totalQuizScore; // Display total accumulated score
-        }
-
-
-        // End the current stage
-        function endStage() {
-            console.log("--- endStage called for stage index:", currentStageIndex, "---");
-            stopTimer(); // Ensure timer is stopped
-             skipButton.classList.add('hidden'); // Hide the skip button at the end of the stage
-            // quizArea and dashboard are hidden later
-
-            const currentStagePoints = pointsPerStage[currentStageIndex];
-            const maxPossibleStageScore = QUESTIONS_PER_STAGE * currentStagePoints;
-            // Passing score is now based on the count of correct answers OR skips
-            const requiredSuccessesToPass = 9; // Needs 9 correct/skipped questions to pass
-
-
-            console.log("Final Stage Score (this attempt):", stageScore, "Success/Skipped Count:", correctOrSkippedCount, "Required for Passing:", requiredSuccessesToPass, "Max Possible Stage Score:", maxPossibleStageScore);
-
-
-            // Update max score display in summary screen
-            maxStageScoreSpan.textContent = maxPossibleStageScore;
-
-
-            // Check if passed based on correctOrSkippedCount
-            if (correctOrSkippedCount >= requiredSuccessesToPass) {
-                 console.log("Stage passed based on success count.");
-                 // totalQuizScore was already updated during the stage for correct answers and skips.
-
-                // Check if there is a NEXT stage AND points data for the next stage
-                 if (currentStageIndex + 1 < quizData.length && currentStageIndex + 1 < pointsPerStage.length) {
-                     // There is a next stage, show the advanced stage screen
-                     console.log("Next stage found. Showing advanced stage screen for stage:", currentStageIndex + 2);
-                     // currentStageIndex is incremented ONLY when clicking the 'Start Next Stage' button
-                     showAdvancedStageScreen();
-
-                 } else {
-                     // Passed the last stage (or no points data for next stage, meaning it's the effective end)
-                     console.log("Passed the last available stage based on success count. Showing final completion summary.");
-                     endQuiz(true); // Indicate quiz finished successfully (calls showFinalSummary internally)
-                 }
-            } else {
-                 // Did not pass the stage based on success count
-                 console.log("Stage not passed based on success count. Showing summary.");
-                 // totalQuizScore was updated during the stage.
-                 endQuiz(false); // Indicate stage failed (calls showFinalSummary internally)
-            }
-             console.log("endStage finished. Total Score:", totalQuizScore);
-        }
-
-         // Function to retry the current stage
-        function retryCurrentStage() {
-             console.log("--- retryCurrentStage called ---");
-             // currentStageIndex is already set to the stage that was just failed
-             // stageScore will be reset to 0 at the start of startStage()
-             // correctOrSkippedCount will be reset to 0 at the start of startStage()
-             // totalQuizScore remains unchanged from before this failed attempt
-             startStage(); // Start the current stage again
-        }
-
-
-        // Show final summary (win or lose for the stage, or final quiz completion)
-        // This is used when the quiz flow ENDS for a stage (fail) or for the whole quiz (pass last stage)
-        function showFinalSummary(passed) {
-             console.log("--- showFinalSummary called, passed:", passed, "---");
-            stopTimer(); // Ensure timer is stopped
-             skipButton.classList.add('hidden'); // Ensure skip button is hidden
-
-
-             hideAllScreens(); // Hide all quiz screens
-
-             stageSummary.classList.remove('hidden'); // Show summary screen
-
-             // Display stage score for the attempt that just finished
-            stageSummaryScoreText.classList.remove('hidden'); // Make sure stage score is visible
-            finalStageScoreSpan.textContent = stageScore;
-
-             // Update max stage score in summary (redundant if called from endStage but safe)
-             const currentStagePoints = pointsPerStage[currentStageIndex] || 5; // Default to 5 if points data missing
-             const maxPossibleStageScore = QUESTIONS_PER_STAGE * currentStagePoints;
-             maxStageScoreSpan.textContent = maxPossibleStageScore;
-
-
-            // Always show total score in summary
-            totalScoreSummaryText.classList.remove('hidden');
-            totalScoreSummarySpan.textContent = totalQuizScore;
-
-
-            // Remove existing button from summary
-            if (summaryButton) {
-                 summaryButton.remove();
-                 summaryButton = null; // Clear reference
-            }
-
-            if (passed) {
-                 // This case is ONLY for passing the *last* stage
-                 stageResultPara.textContent = 'כל הכבוד! סיימת את כל השלבים בחידון בהצלחה!'; // Final completion message
-                 stageResultPara.classList.remove('incorrect');
-                 stageResultPara.classList.add('correct');
-                 addSummaryButton("שחק שוב", false); // false means it's not a retry button for current stage
-            } else {
-                // Failed the stage
-                const requiredSuccessesToPass = 9; // Needs 9 correct/skipped questions to pass
-                // Updated failure message to reflect the 9 successes rule
-                stageResultPara.textContent = `לא עברת את שלב ${currentStageIndex + 1}. נסה שוב! (צריך ${requiredSuccessesToPass} תשובות נכונות או דילוגים לשלב)`;
-                stageResultPara.classList.remove('correct');
-                stageResultPara.classList.add('incorrect');
-                 addSummaryButton("נסה שוב", true); // This is a retry button for the current stage
-            }
-
-
-             console.log("Quiz finished (or stage failed). Total Score:", totalQuizScore);
-        }
-
-
-        // Helper to add button to the summary screen
-        // The 'isRetry' flag determines which function the button calls
-        function addSummaryButton(buttonText = "נסה שוב", isRetry = true) {
-            console.log("addSummaryButton called with text:", buttonText, "isRetry:", isRetry);
-            // Ensure no previous button exists before adding
-            if (!summaryButton) { // Check if the reference is null
-                summaryButton = document.createElement('button');
-                summaryButton.textContent = buttonText;
-                summaryButton.id = 'summary-button'; // Add ID
-                // Styling is handled by the .summary-button CSS rule
-
-                if (isRetry) {
-                     // If it's a retry button (stage failed)
-                    summaryButton.addEventListener('click', retryCurrentStage);
-                } else {
-                     // If it's a play again button (quiz finished)
-                    summaryButton.addEventListener('click', restartQuiz); // Reloads the page
-                }
-
-                stageSummary.appendChild(summaryButton);
-            }
-        }
-
-        // Basic restart function (reloads the page for simplicity)
-        // This is ONLY called after successfully completing the FINAL stage.
-        function restartQuiz() {
-            console.log("Restarting entire quiz...");
-            window.location.reload();
-        }
-
-        // Implement endQuiz for when there are no more stages (called if startStage fails due to no next stage)
-        // This function is called if startStage fails because no data is found for the next stage.
-        // It's also called from showStageIntro if the requested stage index is out of bounds.
-        // Added a boolean to indicate if the quiz was completed vs. an error occurred.
-        function endQuiz(completedSuccessfully = false) {
-             console.log("--- endQuiz called, completedSuccessfully:", completedSuccessfully, "---");
-             stopTimer(); // Ensure timer is stopped
-              skipButton.classList.add('hidden'); // Ensure skip button is hidden
-
-
-             hideAllScreens(); // Hide all quiz screens
-
-             stageSummary.classList.remove('hidden'); // Show summary screen
-
-             // In case of completion, hide the "Score for this stage" line, only show total
-             if (completedSuccessfully) {
-                  stageSummaryScoreText.classList.add('hidden'); // Hide stage score line on full completion
-                  totalScoreSummaryText.classList.remove('hidden'); // Ensure total score is shown
-                  totalScoreSummarySpan.textContent = totalQuizScore;
-
-                 stageResultPara.textContent = 'כל הכבוד! סיימת את כל השלבים בחידון בהצלחה!'; // Final completion message
-                 stageResultPara.classList.remove('incorrect');
-                 stageResultPara.classList.add('correct');
-                 addSummaryButton("שחק שוב", false); // Not a retry button
-
-             } else {
-                 // This case is primarily for stage failure
-                 stageSummaryScoreText.classList.remove('hidden'); // Show stage score line
-                 finalStageScoreSpan.textContent = stageScore; // Show stage score
-
-                  // Update max stage score in summary for the failed stage
-                 const currentStagePoints = pointsPerStage[currentStageIndex] || 5; // Default to 5 if points data missing
-                 const maxPossibleStageScore = QUESTIONS_PER_STAGE * currentStagePoints;
-                 maxStageScoreSpan.textContent = maxPossibleStageScore;
-
-
-                  totalScoreSummaryText.classList.remove('hidden'); // Still show total score accumulated BEFORE this failed attempt
-                  totalScoreSummarySpan.textContent = totalQuizScore;
-
-
-                 const requiredSuccessesToPass = 9; // Needs 9 correct/skipped questions to pass
-                 // Updated failure message to reflect the 9 successes rule
-                 stageResultPara.textContent = `לא עברת את שלב ${currentStageIndex + 1}. נסה שוב! (צריך ${requiredSuccessesToPass} תשובות נכונות או דילוגים לשלב)`;
-                 stageResultPara.classList.remove('correct');
-                 stageResultPara.classList.add('incorrect');
-                 addSummaryButton("נסה שוב", true); // This is a retry button for the current stage
-             }
-
-
-             console.log("Quiz finished (or stage failed). Total Score:", totalQuizScore);
-        }
-
-
-        // --- Sound Functionality (Requires Sound Files) ---
-        // ... (sound code remains commented out) ...
-
-
-        // --- Start the process ---
-        // Use initQuiz to start the quiz flow which shows the initial intro
-        window.addEventListener('load', initQuiz);
-
-    </script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    function triggerConfetti(level) {
-        const basePower = 100 + level * 30;
-        confetti({
-            particleCount: basePower,
-            spread: 90 + level * 5,
-            origin: { y: 0.6 }
-        });
+    if (timerText && timerCircle) {
+        timerText.textContent = timeLeft;
+        const circumference = 100;
+        const percentage = timeLeft / TIME_PER_QUESTION;
+        timerCircle.style.strokeDasharray = `${percentage * circumference} ${circumference}`;
+        timerCircle.style.stroke = timeLeft <= 5 ? '#e74c3c' : (timeLeft <= 10 ? '#f39c12' : '#2ecc71');
     }
-
-    const stageMessages = [
-        "כל הכבוד! עברת את שלב המלכים!",
-        "מעולה! שלטת בבית המקדש!",
-        "אדיר! הדמויות בתנ\"ך מריעות לך!",
-        "נהדר! אתה מנווט כמו שופט בשדה קרב!",
-        "וואו! חכמת שלמה זורמת בך!"
-    ];
-
-    window.showCelebrationMessage = function(message) {
-        const msgDiv = document.getElementById('celebration-message');
-        msgDiv.textContent = message;
-        msgDiv.classList.remove('hidden', 'fade-out');
-        msgDiv.classList.add('fade-in');
-        setTimeout(() => {
-            msgDiv.classList.remove('fade-in');
-            msgDiv.classList.add('fade-out');
-        }, 4000);
-    };
-
-    window.showAdvancedStageScreen = function() {
-        hideAllScreens();
-        const nextStageIndex = currentStageIndex + 1;
-        if (nextStageIndex < quizData.length) {
-            setBackgroundForCurrentStage();
-        }
-        advancedStageScreen.classList.remove('hidden');
-        completedStageNumAdvSpan.textContent = currentStageIndex + 1;
-        nextStageNumAdvSpan.textContent = nextStageIndex + 1;
-        nextStageThemeAdvSpan.textContent = quizData[nextStageIndex]?.theme || 'שלב חדש';
-        const msg = stageMessages[currentStageIndex] || "שלב נוסף הושלם!";
-        showCelebrationMessage(msg);
-        triggerConfetti(currentStageIndex + 1);
-    };
-});
+}
+    );
 </script>
 <script>
 
