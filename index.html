@@ -483,6 +483,16 @@
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<style>
+  body.stage-1 {
+    background-image: url('background-stage-1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+</style>
+
 </head>
 <body>
 <div id="background-overlay"></div>
@@ -1403,5 +1413,22 @@ Promise.all([
   console.log("כל ששת השלבים נטענו בהצלחה");
 });
 </script>
+
+<script>
+  function applyStageBackground(stageIndex) {
+    document.body.classList.remove('stage-1');
+    if (stageIndex === 0) {
+      document.body.classList.add('stage-1');
+    }
+  }
+
+  // Hook into stage start function (assumes a global startStage exists)
+  const originalStartStage = window.startStage;
+  window.startStage = function(index) {
+    applyStageBackground(index);
+    return originalStartStage(index);
+  };
+</script>
+
 </body>
 </html>
