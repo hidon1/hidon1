@@ -682,8 +682,7 @@
         function setBackgroundForCurrentStage() {
              console.log("Setting background for stage index:", currentStageIndex);
              if (currentStageIndex < quizData.length && quizData[currentStageIndex].background_image) { // Added bounds check
-                 // Corrected image file extension from .png to .jpg
-                 backgroundOverlay.style.backgroundImage = `url('https://hidon1.github.io/hidon1/background-stage-${currentStageIndex + 1}.jpg')`;
+                 backgroundOverlay.style.backgroundImage = `url('https://hidon1.github.io/hidon1/background-stage-1.png')`;
              } else {
                  // Fallback or clear background if no image defined for the stage
                  backgroundOverlay.style.backgroundImage = ''; // Clears the background
@@ -758,7 +757,7 @@
              // Set background for the *next* stage in anticipation
              const nextStageIndex = currentStageIndex + 1;
             if (nextStageIndex < quizData.length && quizData[nextStageIndex].background_image) {
-                 setBackgroundForCurrentStage(); // Set background for the *next* stage
+                 backgroundOverlay.style.backgroundImage = `url('https://hidon1.github.io/hidon1/background-stage-1.png')`;
              } else {
                   backgroundOverlay.style.backgroundImage = ''; // Clear background if next stage has none or doesn't exist
              }
@@ -1429,7 +1428,7 @@ function loadStageFromFile(stageId, filePath, theme) {
       quizData.push({
         stageId: stageId,
         theme: theme,
-        background_image: "background-stage-" + stageId + ".jpg", // Added this line
+        background_image: "",
         questions: questions
       });
     })
@@ -1450,7 +1449,6 @@ Promise.all([
   loadStageFromFile(6, "https://hidon1.github.io/hidon1/6.json", "שלב ו: סיום")
 ]).then(() => {
   console.log("כל ששת השלבים נטענו בהצלחה");
-   initQuiz(); // Initialize quiz after data is loaded
 });
     
 </script>
