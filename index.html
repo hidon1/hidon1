@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="he">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>חידון התנ"ך</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>חידון התנ"ך</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style>
         html, body {
              height: 100%;
              margin: 0;
@@ -481,111 +482,77 @@
     to { opacity: 0; transform: translateY(-20px); }
 }
 </style>
-
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-
-    <div id="background-overlay"></div>
-
-
-    <div class="container">
-
-        <div id="initial-intro" class="quiz-section">
-             <svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-               <defs>
-                 <linearGradient id="balloonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                   <stop offset="0%" stop-color="#e0b8ff"/>
-                   <stop offset="40%" stop-color="#9932cc"/>
-                   <stop offset="80%" stop-color="#6a0dad"/>
-                   <stop offset="100%" stop-color="#4b0082"/>
-                 </linearGradient>
-
-                 <filter id="balloonEffect" x="-20%" y="-20%" width="140%" height="140%">
-                   <feOffset result="offOut" in="SourceAlpha" dx="6" dy="6"/>
-                   <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"/>
-                   <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
-                 </filter>
-
-                 <filter id="extraBold" x="-10%" y="-10%" width="120%" height="120%">
-                   <feMorphology operator="dilate" radius="1.5" in="SourceGraphic" result="dilated"/>
-                   <feGaussianBlur stdDeviation="1" in="dilated" result="blurred"/>
-                   <feComposite in="SourceGraphic" in2="blurred" operator="over"/>
-                 </filter>
-               </defs>
-
-               <circle cx="300" cy="300" r="270" fill="#d60000" stroke="#0046ad" stroke-width="20"/>
-
-               <circle cx="300" cy="300" r="240" fill="none" stroke="purple" stroke-width="5" stroke-opacity="0.5"/>
-
-               <text x="300" y="250"
-                     font-size="125"
-                     font-family="Tahoma, Verdana, 'Segoe UI', sans-serif"
-                     font-weight="900"
-                     fill="url(#balloonGradient)"
-                     text-anchor="middle"
-                     letter-spacing="3"
-                     filter="url(#balloonEffect) url(#extraBold)">
+<div id="background-overlay"></div>
+<div class="container">
+<div class="quiz-section" id="initial-intro">
+<svg height="600" viewbox="0 0 600 600" width="600" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="balloonGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#e0b8ff"></stop>
+<stop offset="40%" stop-color="#9932cc"></stop>
+<stop offset="80%" stop-color="#6a0dad"></stop>
+<stop offset="100%" stop-color="#4b0082"></stop>
+</lineargradient>
+<filter height="140%" id="balloonEffect" width="140%" x="-20%" y="-20%">
+<feoffset dx="6" dy="6" in="SourceAlpha" result="offOut"></feoffset>
+<fegaussianblur in="offOut" result="blurOut" stddeviation="3"></fegaussianblur>
+<feblend in="SourceGraphic" in2="blurOut" mode="normal"></feblend>
+</filter>
+<filter height="120%" id="extraBold" width="120%" x="-10%" y="-10%">
+<femorphology in="SourceGraphic" operator="dilate" radius="1.5" result="dilated"></femorphology>
+<fegaussianblur in="dilated" result="blurred" stddeviation="1"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blurred" operator="over"></fecomposite>
+</filter>
+</defs>
+<circle cx="300" cy="300" fill="#d60000" r="270" stroke="#0046ad" stroke-width="20"></circle>
+<circle cx="300" cy="300" fill="none" r="240" stroke="purple" stroke-opacity="0.5" stroke-width="5"></circle>
+<text fill="url(#balloonGradient)" filter="url(#balloonEffect) url(#extraBold)" font-family="Tahoma, Verdana, 'Segoe UI', sans-serif" font-size="125" font-weight="900" letter-spacing="3" text-anchor="middle" x="300" y="250">
                  חידון
                </text>
-
-               <text x="300" y="380"
-                     font-size="125"
-                     font-family="Tahoma, Verdana, 'Segoe UI', sans-serif"
-                     font-weight="900"
-                     fill="url(#balloonGradient)"
-                     text-anchor="middle"
-                     letter-spacing="3"
-                     filter="url(#balloonEffect) url(#extraBold)">
+<text fill="url(#balloonGradient)" filter="url(#balloonEffect) url(#extraBold)" font-family="Tahoma, Verdana, 'Segoe UI', sans-serif" font-size="125" font-weight="900" letter-spacing="3" text-anchor="middle" x="300" y="380">
                  התנ״ך
                </text>
-             </svg>
-             <button id="initial-start-button">התחל</button>
-        </div>
-
-
-        <div id="stage-intro" class="quiz-section hidden">
-            <h1>חידון התנ"ך</h1>
-            <h2 id="stage-theme">טוען...</h2>
-            <button id="intro-button">התחל שלב</button>
-        </div>
-
-        <div id="advanced-stage-screen" class="quiz-section hidden">
-            <h2>כל הכבוד!</h2>
-            <p>סיימת את שלב <span id="completed-stage-num-adv">?</span> בהצלחה.</p>
-            <p>התקדמת לשלב <span id="next-stage-num-adv">?</span>: <span id="next-stage-theme-adv">?</span></p>
-            <button id="advanced-stage-button">התחל שלב הבא</button>
-        </div>
-
-        <div id="quiz-area" class="quiz-section hidden">
-            <div id="timer-bar-container">
-                <div id="timer-bar"></div>
-            </div>
-            <div id="question-text"></div>
-            <div id="answer-options">
-                </div>
-            <div id="feedback" class="hidden"></div>
-             <button id="skip-button" class="hidden">דלג על שאלה (-50 נקודות)</button>
-        </div>
-
-        <div id="stage-summary" class="quiz-section hidden">
-            <h2>סיכום שלב</h2>
-            <p id="stage-summary-score-text">ניקוד לשלב זה: <span id="final-stage-score"></span> מתוך <span id="max-stage-score"></span></p>
-             <p id="total-score-summary">ניקוד כולל: <span id="final-total-score"></span></p>
-            <p id="stage-result"></p>
-            </div>
-
-        <div id="celebration-message" class="hidden" style="font-size: 2em; color: #e67e22; font-weight: bold; margin: 10px 0;"></div>
-
-<div id="dashboard" class="hidden">
-            <span id="stage-info"><strong>שלב</strong> <span id="current-stage">1</span>: <span id="current-stage-theme"></span></span> |
+</svg>
+<button id="initial-start-button">התחל</button>
+</div>
+<div class="quiz-section hidden" id="stage-intro">
+<h1>חידון התנ"ך</h1>
+<h2 id="stage-theme">טוען...</h2>
+<button id="intro-button">התחל שלב</button>
+</div>
+<div class="quiz-section hidden" id="advanced-stage-screen">
+<h2>כל הכבוד!</h2>
+<p>סיימת את שלב <span id="completed-stage-num-adv">?</span> בהצלחה.</p>
+<p>התקדמת לשלב <span id="next-stage-num-adv">?</span>: <span id="next-stage-theme-adv">?</span></p>
+<button id="advanced-stage-button">התחל שלב הבא</button>
+</div>
+<div class="quiz-section hidden" id="quiz-area">
+<div id="timer-bar-container">
+<div id="timer-bar"></div>
+</div>
+<div id="question-text"></div>
+<div id="answer-options">
+</div>
+<div class="hidden" id="feedback"></div>
+<button class="hidden" id="skip-button">דלג על שאלה (-50 נקודות)</button>
+</div>
+<div class="quiz-section hidden" id="stage-summary">
+<h2>סיכום שלב</h2>
+<p id="stage-summary-score-text">ניקוד לשלב זה: <span id="final-stage-score"></span> מתוך <span id="max-stage-score"></span></p>
+<p id="total-score-summary">ניקוד כולל: <span id="final-total-score"></span></p>
+<p id="stage-result"></p>
+</div>
+<div class="hidden" id="celebration-message" style="font-size: 2em; color: #e67e22; font-weight: bold; margin: 10px 0;"></div>
+<div class="hidden" id="dashboard">
+<span id="stage-info"><strong>שלב</strong> <span id="current-stage">1</span>: <span id="current-stage-theme"></span></span> |
             <span id="question-info"><strong>שאלה</strong> <span id="current-question-num">0</span> מתוך <span id="total-stage-questions">10</span></span> |
             <span id="score-info"><strong>ניקוד שלב</strong> <span id="stage-score">0</span></span> | <span id="total-score-info"><strong>ניקוד כולל</strong> <span id="total-quiz-score">0</span></span> | <span id="timer-info"><strong>זמן</strong> <span id="time-left">20</span></span>
-        </div>
-
-    </div>
-
-    <script>
+</div>
+</div>
+<script>
         // JSON data now structured as an array of stages
         const quizData = [];
 
@@ -1352,7 +1319,6 @@
         window.addEventListener('load', initQuiz);
 
     </script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     function triggerConfetti(level) {
@@ -1399,8 +1365,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 });
 </script>
-
-
 <script>
 
 function loadStageFromFile(stageId, filePath, theme) {
@@ -1441,6 +1405,5 @@ Promise.all([
   quizData[0].background_image = "background-stage-1.png";
 });
 </script>
-
 </body>
 </html>
