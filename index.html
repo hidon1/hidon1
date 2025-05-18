@@ -1428,11 +1428,14 @@ function loadStageFromFile(stageId, filePath, theme) {
 }
 
 // Load all 4 stages
+
 Promise.all([
   loadStageFromFile(1, "1.json", "שלב א: שאלות ראשונות"),
   loadStageFromFile(2, "2.json", "שלב ב: שאלות מתקדמות"),
   loadStageFromFile(3, "3.json", "שלב ג: דמויות ומלכים"),
-  loadStageFromFile(4, "4.json", "שלב ד: מאורעות וזמנים")
+  loadStageFromFile(4, "4.json", "שלב ד: מאורעות וזמנים"),
+  loadStageFromFile(5, "5.json", "שלב ה: שאלות קשות"),
+  loadStageFromFile(6, "6.json", "שלב ו: שאלות סיכום")
 ]).then(() => {
   console.log("כל השלבים נטענו בהצלחה");
   quizData[0].background_image = "background-stage-1.png";
