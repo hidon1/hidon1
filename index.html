@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="he">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>חידון התנ"ך</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>חידון התנ"ך</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style>
         html, body {
              height: 100%;
              margin: 0;
@@ -481,124 +482,90 @@
     to { opacity: 0; transform: translateY(-20px); }
 }
 </style>
-
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<style>
+  body.stage-1 {
+    background-image: url('https://hidon1.github.io/hidon1/background-stage-1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+</style>
 </head>
 <body>
-
-    <div id="background-overlay"></div>
-
-
-    <div class="container">
-
-        <div id="initial-intro" class="quiz-section">
-             <svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-               <defs>
-                 <linearGradient id="balloonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                   <stop offset="0%" stop-color="#e0b8ff"/>
-                   <stop offset="40%" stop-color="#9932cc"/>
-                   <stop offset="80%" stop-color="#6a0dad"/>
-                   <stop offset="100%" stop-color="#4b0082"/>
-                 </linearGradient>
-
-                 <filter id="balloonEffect" x="-20%" y="-20%" width="140%" height="140%">
-                   <feOffset result="offOut" in="SourceAlpha" dx="6" dy="6"/>
-                   <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"/>
-                   <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
-                 </filter>
-
-                 <filter id="extraBold" x="-10%" y="-10%" width="120%" height="120%">
-                   <feMorphology operator="dilate" radius="1.5" in="SourceGraphic" result="dilated"/>
-                   <feGaussianBlur stdDeviation="1" in="dilated" result="blurred"/>
-                   <feComposite in="SourceGraphic" in2="blurred" operator="over"/>
-                 </filter>
-               </defs>
-
-               <circle cx="300" cy="300" r="270" fill="#d60000" stroke="#0046ad" stroke-width="20"/>
-
-               <circle cx="300" cy="300" r="240" fill="none" stroke="purple" stroke-width="5" stroke-opacity="0.5"/>
-
-               <text x="300" y="250"
-                     font-size="125"
-                     font-family="Tahoma, Verdana, 'Segoe UI', sans-serif"
-                     font-weight="900"
-                     fill="url(#balloonGradient)"
-                     text-anchor="middle"
-                     letter-spacing="3"
-                     filter="url(#balloonEffect) url(#extraBold)">
+<div id="background-overlay"></div>
+<div class="container">
+<div class="quiz-section" id="initial-intro">
+<svg height="600" viewbox="0 0 600 600" width="600" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="balloonGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#e0b8ff"></stop>
+<stop offset="40%" stop-color="#9932cc"></stop>
+<stop offset="80%" stop-color="#6a0dad"></stop>
+<stop offset="100%" stop-color="#4b0082"></stop>
+</lineargradient>
+<filter height="140%" id="balloonEffect" width="140%" x="-20%" y="-20%">
+<feoffset dx="6" dy="6" in="SourceAlpha" result="offOut"></feoffset>
+<fegaussianblur in="offOut" result="blurOut" stddeviation="3"></fegaussianblur>
+<feblend in="SourceGraphic" in2="blurOut" mode="normal"></feblend>
+</filter>
+<filter height="120%" id="extraBold" width="120%" x="-10%" y="-10%">
+<femorphology in="SourceGraphic" operator="dilate" radius="1.5" result="dilated"></femorphology>
+<fegaussianblur in="dilated" result="blurred" stddeviation="1"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blurred" operator="over"></fecomposite>
+</filter>
+</defs>
+<circle cx="300" cy="300" fill="#d60000" r="270" stroke="#0046ad" stroke-width="20"></circle>
+<circle cx="300" cy="300" fill="none" r="240" stroke="purple" stroke-opacity="0.5" stroke-width="5"></circle>
+<text fill="url(#balloonGradient)" filter="url(#balloonEffect) url(#extraBold)" font-family="Tahoma, Verdana, 'Segoe UI', sans-serif" font-size="125" font-weight="900" letter-spacing="3" text-anchor="middle" x="300" y="250">
                  חידון
                </text>
-
-               <text x="300" y="380"
-                     font-size="125"
-                     font-family="Tahoma, Verdana, 'Segoe UI', sans-serif"
-                     font-weight="900"
-                     fill="url(#balloonGradient)"
-                     text-anchor="middle"
-                     letter-spacing="3"
-                     filter="url(#balloonEffect) url(#extraBold)">
+<text fill="url(#balloonGradient)" filter="url(#balloonEffect) url(#extraBold)" font-family="Tahoma, Verdana, 'Segoe UI', sans-serif" font-size="125" font-weight="900" letter-spacing="3" text-anchor="middle" x="300" y="380">
                  התנ״ך
                </text>
-             </svg>
-             <button id="initial-start-button">התחל</button>
-        </div>
-
-
-        <div id="stage-intro" class="quiz-section hidden">
-            <h1>חידון התנ"ך</h1>
-            <h2 id="stage-theme">טוען...</h2>
-            <button id="intro-button">התחל שלב</button>
-        </div>
-
-        <div id="advanced-stage-screen" class="quiz-section hidden">
-            <h2>כל הכבוד!</h2>
-            <p>סיימת את שלב <span id="completed-stage-num-adv">?</span> בהצלחה.</p>
-            <p>התקדמת לשלב <span id="next-stage-num-adv">?</span>: <span id="next-stage-theme-adv">?</span></p>
-            <button id="advanced-stage-button">התחל שלב הבא</button>
-        </div>
-
-        <div id="quiz-area" class="quiz-section hidden">
-            
-    <div id="timer-container" style="width:60px; height:60px; position:relative;">
-      <svg width="60" height="60" viewBox="0 0 36 36">
-        <circle cx="18" cy="18" r="16" fill="none" stroke="#ecf0f1" stroke-width="2"></circle>
-        <circle id="timer-circle" cx="18" cy="18" r="16" fill="none" stroke="#2ecc71" stroke-width="2"
-                stroke-dasharray="100, 100" stroke-linecap="round" transform="rotate(-90 18 18)">
-        </circle>
-        <text id="timer-text" x="18" y="22" font-size="8" text-anchor="middle" fill="#34495e">20</text>
-      </svg>
-    </div>
-    
-            <div id="question-text"></div>
-            <div id="answer-options">
-                </div>
-            <div id="feedback" class="hidden"></div>
-             <button id="skip-button" class="hidden">דלג על שאלה (-50 נקודות)</button>
-        </div>
-
-        <div id="stage-summary" class="quiz-section hidden">
-            <h2>סיכום שלב</h2>
-            <p id="stage-summary-score-text">ניקוד לשלב זה: <span id="final-stage-score"></span> מתוך <span id="max-stage-score"></span></p>
-             <p id="total-score-summary">ניקוד כולל: <span id="final-total-score"></span></p>
-            <p id="stage-result"></p>
-            </div>
-
-        <div id="celebration-message" class="hidden" style="font-size: 2em; color: #e67e22; font-weight: bold; margin: 10px 0;"></div>
-
-<div id="dashboard" class="hidden">
-            <span id="stage-info"><strong>שלב</strong> <span id="current-stage">1</span>: <span id="current-stage-theme"></span></span> |
+</svg>
+<button id="initial-start-button">התחל</button>
+</div>
+<div class="quiz-section hidden" id="stage-intro">
+<h1>חידון התנ"ך</h1>
+<h2 id="stage-theme">טוען...</h2>
+<button id="intro-button">התחל שלב</button>
+</div>
+<div class="quiz-section hidden" id="advanced-stage-screen">
+<h2>כל הכבוד!</h2>
+<p>סיימת את שלב <span id="completed-stage-num-adv">?</span> בהצלחה.</p>
+<p>התקדמת לשלב <span id="next-stage-num-adv">?</span>: <span id="next-stage-theme-adv">?</span></p>
+<button id="advanced-stage-button">התחל שלב הבא</button>
+</div>
+<div class="quiz-section hidden" id="quiz-area">
+<div id="timer-bar-container">
+<div id="timer-bar"></div>
+</div>
+<div id="question-text"></div>
+<div id="answer-options">
+</div>
+<div class="hidden" id="feedback"></div>
+<button class="hidden" id="skip-button">דלג על שאלה (-50 נקודות)</button>
+</div>
+<div class="quiz-section hidden" id="stage-summary">
+<h2>סיכום שלב</h2>
+<p id="stage-summary-score-text">ניקוד לשלב זה: <span id="final-stage-score"></span> מתוך <span id="max-stage-score"></span></p>
+<p id="total-score-summary">ניקוד כולל: <span id="final-total-score"></span></p>
+<p id="stage-result"></p>
+</div>
+<div class="hidden" id="celebration-message" style="font-size: 2em; color: #e67e22; font-weight: bold; margin: 10px 0;"></div>
+<div class="hidden" id="dashboard">
+<span id="stage-info"><strong>שלב</strong> <span id="current-stage">1</span>: <span id="current-stage-theme"></span></span> |
             <span id="question-info"><strong>שאלה</strong> <span id="current-question-num">0</span> מתוך <span id="total-stage-questions">10</span></span> |
             <span id="score-info"><strong>ניקוד שלב</strong> <span id="stage-score">0</span></span> | <span id="total-score-info"><strong>ניקוד כולל</strong> <span id="total-quiz-score">0</span></span> | <span id="timer-info"><strong>זמן</strong> <span id="time-left">20</span></span>
-        </div>
-
-    </div>
-
-    <script>
+</div>
+</div>
+<script>
         // JSON data now structured as an array of stages
         const quizData = [];
 
         // Array to store points per stage (index 0 is Stage 1, index 1 is Stage 2, etc.)
-        const pointsPerStage = [5, 5, 5, 5, 5, 5]; // Add more values here for additional stages
+        const pointsPerStage = [5, 5, 5]; // Add more values here for additional stages
 
         // Get references to HTML elements
         // New: Reference to initial intro screen and button
@@ -681,9 +648,7 @@
         // Set background image based on the current stage
         function setBackgroundForCurrentStage() {
              console.log("Setting background for stage index:", currentStageIndex);
-             // Check if the current stage index is valid and has background_image data
-             if (currentStageIndex >= 0 && currentStageIndex < quizData.length && quizData[currentStageIndex].background_image) {
-                 // Use the background_image path stored during JSON loading
+             if (currentStageIndex < quizData.length && quizData[currentStageIndex].background_image) { // Added bounds check
                  backgroundOverlay.style.backgroundImage = `url('${quizData[currentStageIndex].background_image}')`;
              } else {
                  // Fallback or clear background if no image defined for the stage
@@ -736,11 +701,7 @@
                  return;
              }
 
-             // Set background for the stage we are introducing
-             // Use the currentStageIndex which is the index of the stage we are about to start
-             currentStageIndex = stageIndex; // Make sure currentStageIndex is set correctly
-             setBackgroundForCurrentStage();
-
+             setBackgroundForCurrentStage(); // Set background for the stage we are introducing
 
             stageIntro.classList.remove('hidden'); // Show the intro screen
 
@@ -762,15 +723,10 @@
 
              // Set background for the *next* stage in anticipation
              const nextStageIndex = currentStageIndex + 1;
-             // Set the background using the data for the *next* stage
-             if (nextStageIndex < quizData.length) {
-                 // Temporarily update currentStageIndex to use setBackgroundForCurrentStage correctly
-                 const originalStageIndex = currentStageIndex;
-                 currentStageIndex = nextStageIndex;
-                 setBackgroundForCurrentStage(); // This will set background for the next stage
-                 currentStageIndex = originalStageIndex; // Restore original index
+            if (nextStageIndex < quizData.length && quizData[nextStageIndex].background_image) {
+                 backgroundOverlay.style.backgroundImage = `url('${quizData[nextStageIndex].background_image}')`;
              } else {
-                  backgroundOverlay.style.backgroundImage = ''; // Clear background if next stage doesn't exist
+                  backgroundOverlay.style.backgroundImage = ''; // Clear background if next stage has none or doesn't exist
              }
 
             advancedStageScreen.classList.remove('hidden'); // Show the advanced stage screen
@@ -1100,20 +1056,17 @@
             updateTimerDisplay();
         }
 
-        
-function updateTimerDisplay() {
-    const timerText = document.getElementById('timer-text');
-    const timerCircle = document.getElementById('timer-circle');
-    if (timerText && timerCircle) {
-        timerText.textContent = timeLeft;
-        const circumference = 100;
-        const percentage = timeLeft / TIME_PER_QUESTION;
-        const dash = Math.max(0, percentage * circumference);
-        timerCircle.setAttribute("stroke-dasharray", dash + ", 100");
-        timerCircle.setAttribute("stroke", timeLeft <= 5 ? "#e74c3c" : (timeLeft <= 10 ? "#f39c12" : "#2ecc71"));
-    }
-}
-    
+        function updateTimerDisplay() {
+            /* console.log("updateTimerDisplay called, timeLeft:", timeLeft); // Commented out to reduce log spam */
+            timeLeftSpan.textContent = timeLeft;
+
+            const percentage = (timeLeft / TIME_PER_QUESTION) * 100;
+            timerBar.style.width = percentage + '%';
+
+            timerBar.classList.remove('warning', 'critical');
+            if (timeLeft <= 5 && timeLeft > 0) {
+                timerBar.classList.add('warning');
+                 if (timeLeft === 5) { /* play warning sound */ }
             } else if (timeLeft <= 0) {
                  timerBar.classList.add('critical');
             } else {
@@ -1374,9 +1327,7 @@ function updateTimerDisplay() {
         window.addEventListener('load', initQuiz);
 
     </script>
-
 <script>
-// This script block remains for celebration messages and confetti
 document.addEventListener("DOMContentLoaded", function () {
     function triggerConfetti(level) {
         const basePower = 100 + level * 30;
@@ -1388,12 +1339,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const stageMessages = [
-        "כל הכבוד! עברת את שלב א!", // Message for completing stage 1
-        "מעולה! עברת את שלב ב'!", // Message for completing stage 2
-        "אדיר! עברת את שלב ג'!", // Message for completing stage 3
-        "נהדר! עברת את שלב ד'!", // Message for completing stage 4
-        "וואו! עברת את שלב ה'!", // Message for completing stage 5
-        "מדהים! סיימת את החידון!" // Message for completing stage 6 (the last stage)
+        "כל הכבוד! עברת את שלב המלכים!",
+        "מעולה! שלטת בבית המקדש!",
+        "אדיר! הדמויות בתנ\"ך מריעות לך!",
+        "נהדר! אתה מנווט כמו שופט בשדה קרב!",
+        "וואו! חכמת שלמה זורמת בך!"
     ];
 
     window.showCelebrationMessage = function(message) {
@@ -1407,43 +1357,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 4000);
     };
 
-    // This function is called from endStage when a stage is passed and there's a next stage
     window.showAdvancedStageScreen = function() {
-         console.log("showAdvancedStageScreen (Celebration Script) called. Stage completed:", currentStageIndex);
-        hideAllScreens(); // Hide everything first
-
-        const nextStageIndex = currentStageIndex + 1; // Index of the stage AFTER the one just completed
-
-        // Set background for the *next* stage using the main setBackgroundForCurrentStage (from the main script block)
-        // Temporarily update currentStageIndex to use the main function correctly
-         const originalStageIndex = currentStageIndex;
-         currentStageIndex = nextStageIndex; // Set to the index of the *next* stage
-         setBackgroundForCurrentStage(); // Use the main function
-         currentStageIndex = originalStageIndex; // Restore original index
-
-
-        advancedStageScreen.classList.remove('hidden'); // Show the advanced stage screen
-
-        // Update text to reflect the completed and next stage numbers
-        completedStageNumAdvSpan.textContent = currentStageIndex + 1; // The stage that was just completed (1-based)
-        // Check bounds for next stage data
-        const nextStageTheme = (nextStageIndex < quizData.length && quizData[nextStageIndex].theme) ? quizData[nextStageIndex].theme : 'השלב הבא';
-        nextStageNumAdvSpan.textContent = nextStageIndex + 1; // Next stage number (1-based)
-        nextStageThemeAdvSpan.textContent = nextStageTheme;
-
-        // Select message based on the stage *just completed* (currentStageIndex before incrementing for next stage)
-        const msg = stageMessages[currentStageIndex] || "שלב נוסף הושלם!"; // Use index of completed stage
+        hideAllScreens();
+        const nextStageIndex = currentStageIndex + 1;
+        if (nextStageIndex < quizData.length) {
+            setBackgroundForCurrentStage();
+        }
+        advancedStageScreen.classList.remove('hidden');
+        completedStageNumAdvSpan.textContent = currentStageIndex + 1;
+        nextStageNumAdvSpan.textContent = nextStageIndex + 1;
+        nextStageThemeAdvSpan.textContent = quizData[nextStageIndex]?.theme || 'שלב חדש';
+        const msg = stageMessages[currentStageIndex] || "שלב נוסף הושלם!";
         showCelebrationMessage(msg);
-
-        triggerConfetti(currentStageIndex + 1); // Trigger confetti based on completed stage number (1-based)
-
-
-         console.log("Advanced stage screen showing, next stage:", nextStageIndex + 1);
+        triggerConfetti(currentStageIndex + 1);
     };
 });
 </script>
-
-
 <script>
 
 function loadStageFromFile(stageId, filePath, theme) {
@@ -1460,8 +1389,7 @@ function loadStageFromFile(stageId, filePath, theme) {
       quizData.push({
         stageId: stageId,
         theme: theme,
-        // Corrected background image file extension and path
-        background_image: `https://hidon1.github.io/background-stage-${stageId}.jpg`,
+        background_image: "",
         questions: questions
       });
     })
@@ -1471,39 +1399,63 @@ function loadStageFromFile(stageId, filePath, theme) {
     });
 }
 
-// Load all 6 stages
-
+// Load all 4 stages
 Promise.all([
-  // Corrected file paths to remove the extra /hidon1/ subdirectory
-  loadStageFromFile(1, "https://hidon1.github.io/1.json", "שלב א: שאלות ראשונות"),
-  loadStageFromFile(2, "https://hidon1.github.io/2.json", "שלב ב: שאלות מתקדמות"),
-  loadStageFromFile(3, "https://hidon1.github.io/3.json", "שלב ג: דמויות ומלכים"),
-  loadStageFromFile(4, "https://hidon1.github.io/4.json", "שלב ד: מאורעות וזמנים"),
-  loadStageFromFile(5, "https://hidon1.github.io/5.json", "שלב ה: המשך"),
-  loadStageFromFile(6, "https://hidon1.github.io/6.json", "שלב ו: סיום")
+  loadStageFromFile(1, "https://hidon1.github.io/hidon1/1.json", "שלב א: שאלות ראשונות"),
+  loadStageFromFile(2, "https://hidon1.github.io/hidon1/2.json", "שלב ב: שאלות מתקדמות"),
+  loadStageFromFile(3, "https://hidon1.github.io/hidon1/3.json", "שלב ג: דמויות ומלכים"),
+  loadStageFromFile(4, "https://hidon1.github.io/hidon1/4.json", "שלב ד: מאורעות וזמנים"),
+  loadStageFromFile(5, "https://hidon1.github.io/hidon1/5.json", "שלב ה: המשך"),
+  loadStageFromFile(6, "https://hidon1.github.io/hidon1/6.json", "שלב ו: סיום")
 ]).then(() => {
   console.log("כל ששת השלבים נטענו בהצלחה");
-   initQuiz(); // Initialize quiz after data is loaded
-}).catch(err => {
-    console.error("שגיאה בטעינת אחד או יותר מקבצי השלבים:", err);
-    // Optionally display a message to the user if loading fails
-    const initialIntroElement = document.getElementById('initial-intro');
-    if (initialIntroElement) {
-        initialIntroElement.innerHTML = `
-           <h1>חידון התנ"ך</h1>
-           <p style="color: red;">שגיאה קריטית: לא ניתן היה לטעון את קבצי השאלות הדרושים. אנא ודא שהקבצים קיימים במיקום הנכון ב-GitHub Pages.</p>
-        `;
-        hideAllScreens();
-        initialIntroElement.classList.remove('hidden');
-         // Ensure initial start button is hidden as quiz cannot proceed
-         const initialStartButton = document.getElementById('initial-start-button');
-         if(initialStartButton) {
-             initialStartButton.classList.add('hidden');
-         }
-    }
 });
-    
 </script>
+<script>
+  function applyStageBackground(stageIndex) {
+    document.body.classList.remove('stage-1');
+    if (stageIndex === 0) {
+      document.body.classList.add('stage-1');
+    }
+  }
 
-</body>
+  // Hook into stage start function (assumes a global startStage exists)
+  const originalStartStage = window.startStage;
+  window.startStage = function(index) {
+    applyStageBackground(index);
+    return originalStartStage(index);
+  };
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const introScreen = document.getElementById("intro-screen");
+  if (introScreen) {
+    const button = document.createElement("button");
+    button.textContent = "התחל";
+    button.style.padding = "12px 32px";
+    button.style.fontSize = "24px";
+    button.style.cursor = "pointer";
+    button.style.marginTop = "30px";
+    button.style.backgroundColor = "#007bff";
+    button.style.color = "#fff";
+    button.style.border = "none";
+    button.style.borderRadius = "8px";
+    button.onclick = function () {
+      introScreen.style.display = "none";
+      document.getElementById("quiz-container").style.display = "block";
+      startStage(0);
+    };
+    introScreen.appendChild(button);
+  }
+});
+</script><script>
+function setBackgroundForCurrentStage() {
+  const overlay = document.getElementById('background-overlay');
+  if (currentStageIndex === 0) {
+    overlay.style.backgroundImage = "url('background-stage-1.png')";
+  } else {
+    overlay.style.backgroundImage = "";
+  }
+}
+</script></body>
 </html>
