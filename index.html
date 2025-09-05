@@ -181,11 +181,7 @@
                 try {
                     const response = await fetch(textFilePath);
                     if (!response.ok) {
-                        if (response.status === 404) {
-                             throw new Error(`שגיאה: הקובץ "${textFilePath}" לא נמצא. ודא שהוא נמצא באותה תיקייה כמו קובץ ה-HTML.`);
-                        } else {
-                            throw new Error(`שגיאה בטעינת הקובץ: ${response.statusText}`);
-                        }
+                        throw new Error(`שגיאה בטעינת הקובץ: ${response.statusText}`);
                     }
                     const text = await response.text();
                     
@@ -200,7 +196,7 @@
                         const verseLocation = parts[i];
                         const verseText = parts[i+1];
                         
-                        // ניקוי טקסט הפסוק לצורך חיפוש
+                        // ניקוי טקסט הפסוק לצורך חיפוש והדגשה
                         const cleanedVerseText = cleanTextForSearch(verseText).toLowerCase();
                         
                         // בדיקת התאמה לביטוי החיפוש
