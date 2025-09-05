@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חיפוש בתנ"ך</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #004d40;
+            --secondary-color: #880e4f;
+            --background-color: #f0f4f8;
+            --card-background: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--background-color);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #searchInput {
+            flex-grow: 1;
+            padding: 12px 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            transition: border-color 0.3s;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        #searchButton {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #fff;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #searchButton:hover {
+            background-color: #00382e;
+        }
+
+        #resultsContainer {
+            min-height: 200px;
+        }
+
+        .verse-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: var(--border-radius);
+            border-right: 4px solid var(--secondary-color);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .verse-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .verse-location {
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .verse-text {
+            line-height: 1.6;
+        }
+        
+        #loading {
+            text-align: center;
+            font-size: 1.2em;
+            color: #777;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>חיפוש בפסוקי התנ"ך</h1>
+            <p>הזן מילה או ביטוי לחיפוש בקובץ הטקסט של דברי הימים.</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="הזן מילת חיפוש...">
+            <button id="searchButton">חפש</button>
+        </div>
+        
+        <div id="loading">...טוען</div>
+        <div id="resultsContainer">
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchButton = document.getElementById('searchButton');
+            const searchInput = document.getElementById('searchInput');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const loadingIndicator = document.getElementById('loading');
+            
+            // המיקום של הקובץ שצירפת
+            const textFilePath = "1'1.txt";
+
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            async function performSearch() {
+                const searchTerm = searchInput.value.trim();
+                if (!searchTerm) {
+                    alert('אנא הזן מילת חיפוש.');
+                    return;
+                }
+
+                resultsContainer.innerHTML = ''; // מנקה תוצאות קודמות
+                loadingIndicator.style.display = 'block'; // מציג אנימציית טעינה
+
+                try {
+                    const response = await fetch(textFilePath);
+                    if (!response.ok) {
+                        throw new Error(`שגיאה בטעינת הקובץ: ${response.statusText}`);
+                    }
+                    const text = await response.text();
+
+                    // ניקוי התגיות {פ} ו-{ס} כפי שביקשת
+                    const cleanedText = text.replace(/{פ}|{ס}|<BIG>|<\/BIG>|<P>|<\/P>/g, '').trim();
+
+                    // פיצול לפי תגית <B>
+                    const parts = cleanedText.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+
+                    let verseLocation = '';
+                    let verseText = '';
+                    let foundCount = 0;
+                    
+                    for (let i = 0; i < parts.length; i++) {
+                        const part = parts[i].trim();
+                        if (i % 2 === 0) {
+                            // זה הטקסט של הפסוק
+                            verseText = part;
+                            
+                            // בדיקת התאמה לביטוי החיפוש
+                            if (verseText.includes(searchTerm)) {
+                                foundCount++;
+                                displayVerse(verseLocation, verseText, searchTerm);
+                            }
+                        } else {
+                            // זה המיקום של הפסוק (התגית)
+                            verseLocation = part;
+                        }
+                    }
+
+                    if (foundCount === 0) {
+                        resultsContainer.innerHTML = `<p>לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
+                    }
+
+                } catch (error) {
+                    resultsContainer.innerHTML = `<p style="color: red;">שגיאה: ${error.message}</p>`;
+                } finally {
+                    loadingIndicator.style.display = 'none'; // מסתיר אנימציית טעינה
+                }
+            }
+
+            function displayVerse(location, text, highlightTerm) {
+                const verseCard = document.createElement('div');
+                verseCard.classList.add('verse-card');
+                
+                const verseLocation = document.createElement('div');
+                verseLocation.classList.add('verse-location');
+                verseLocation.textContent = location;
+                
+                const verseText = document.createElement('div');
+                verseText.classList.add('verse-text');
+                
+                // הדגשת מילת החיפוש
+                const regex = new RegExp(`(${highlightTerm})`, 'g');
+                verseText.innerHTML = text.replace(regex, '<b>$1</b>');
+
+                verseCard.appendChild(verseLocation);
+                verseCard.appendChild(verseText);
+                resultsContainer.appendChild(verseCard);
+            }
+
+        });
+    </script>
+</body>
+</html>
