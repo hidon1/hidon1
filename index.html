@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -162,10 +163,10 @@
                 }
             });
             
-            // פונקציה לניקוי תווים
+            // פונקציה לניקוי תווים לצורך חיפוש והחלפתם ברווח
             function cleanTextForSearch(text) {
-                // מנקה תוכן בתוך סוגריים מסולסלים, מקפים, נקודות ופסיקים
-                return text.replace(/\{.*?\}|[,\.\-]/g, '').trim();
+                // מנקה תוכן בתוך סוגריים מסולסלים, מחליף נקודות, פסיקים ומקפים ברווח
+                return text.replace(/\{.*?\}|[,\.\-]/g, ' ').trim();
             }
 
             async function performSearch() {
@@ -185,19 +186,22 @@
                     }
                     const text = await response.text();
                     
-                    const cleanedSearchTerm = cleanTextForSearch(searchTerm);
-
-                    // פיצול הקובץ לפי תגית <B> כדי להפריד בין פסוקים
-                    const parts = text.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+                    // ניקוי הקובץ מכל התגיות ופיצול לפסוקים
+                    const cleanedFileContent = text.replace(/<H1>|<P>|<BIG>|<\/BIG>|<\/P>/g, '').trim();
+                    const parts = cleanedFileContent.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
 
                     let foundVerses = [];
+                    const cleanedSearchTerm = cleanTextForSearch(searchTerm).toLowerCase();
                     
                     for (let i = 0; i < parts.length; i += 2) {
-                        const verseLocation = parts[i].trim();
+                        const verseLocation = parts[i];
                         const verseText = parts[i+1];
                         
-                        // בדיקת התאמה לביטוי החיפוש בטקסט הנקי
-                        if (cleanTextForSearch(verseText).includes(cleanedSearchTerm)) {
+                        // ניקוי טקסט הפסוק לצורך חיפוש והדגשה
+                        const cleanedVerseText = cleanTextForSearch(verseText).toLowerCase();
+                        
+                        // בדיקת התאמה לביטוי החיפוש
+                        if (cleanedVerseText.includes(cleanedSearchTerm)) {
                             foundVerses.push({ location: verseLocation, text: verseText });
                         }
                     }
@@ -205,7 +209,7 @@
                     displayResults(foundVerses, searchTerm);
 
                 } catch (error) {
-                    resultsContainer.innerHTML = `<p style="color: red;">שגיאה: ${error.message}</p>`;
+                    resultsContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
                 } finally {
                     loadingIndicator.style.display = 'none'; // מסתיר אנימציית טעינה
                 }
@@ -218,30 +222,33 @@
                 resultsContainer.appendChild(resultsSummary);
 
                 if (verses.length === 0) {
-                    resultsContainer.innerHTML = `<p>לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
-                } else {
-                    verses.forEach(verse => {
-                        const verseCard = document.createElement('div');
-                        verseCard.classList.add('verse-card');
-                        
-                        const verseLocation = document.createElement('div');
-                        verseLocation.classList.add('verse-location');
-                        verseLocation.textContent = verse.location;
-                        
-                        const verseText = document.createElement('div');
-                        verseText.classList.add('verse-text');
-                        
-                        // יצירת ביטוי רגולרי להדגשה, מתעלם ממקפים, נקודות ופסיקים
-                        const regex = new RegExp(`(${searchTerm.replace(/[-\.,]/g, '')})`, 'gi');
-                        
-                        // הדגשה של מילת החיפוש
-                        verseText.innerHTML = verse.text.replace(regex, '<b>$1</b>');
-
-                        verseCard.appendChild(verseLocation);
-                        verseCard.appendChild(verseText);
-                        resultsContainer.appendChild(verseCard);
-                    });
+                    resultsContainer.innerHTML += `<p>לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
+                    return;
                 }
+                
+                // יצירת ביטוי רגולרי גמיש שמתאים גם לרווחים וגם למקפים, נקודות ופסיקים
+                const regexPattern = searchTerm.replace(/[-\s\.,]/g, '[-.,\\s]?');
+                const searchTermRegex = new RegExp(`(${regexPattern})`, 'gi');
+                
+                verses.forEach(verse => {
+                    const verseCard = document.createElement('div');
+                    verseCard.classList.add('verse-card');
+                    
+                    const verseLocation = document.createElement('div');
+                    verseLocation.classList.add('verse-location');
+                    verseLocation.textContent = verse.location.replace(/<H1>|<P>|<BIG>|<\/BIG>|<\/P>/g, '').trim();
+                    
+                    const verseText = document.createElement('div');
+                    verseText.classList.add('verse-text');
+                    
+                    const displayVerseText = verse.text.replace(/\{.*?\}/g, '').trim();
+                    
+                    verseText.innerHTML = displayVerseText.replace(searchTermRegex, '<b>$1</b>');
+
+                    verseCard.appendChild(verseLocation);
+                    verseCard.appendChild(verseText);
+                    resultsContainer.appendChild(verseCard);
+                });
             }
         });
     </script>
