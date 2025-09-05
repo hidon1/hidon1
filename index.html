@@ -99,6 +99,13 @@
             transform: translateY(-3px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        
+        #resultsSummary {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
 
         .verse-location {
             font-weight: 700;
@@ -117,7 +124,7 @@
             color: #777;
             display: none;
         }
-
+        
     </style>
 </head>
 <body>
@@ -125,7 +132,7 @@
     <div class="container">
         <header>
             <h1>חיפוש בפסוקי התנ"ך</h1>
-            <p>הזן מילה או ביטוי לחיפוש בקובץ הטקסט של דברי הימים.</p>
+            <p>הזן מילה או ביטוי לחיפוש בכל ספרי התנ"ך.</p>
         </header>
         
         <div class="search-container">
@@ -145,8 +152,13 @@
             const resultsContainer = document.getElementById('resultsContainer');
             const loadingIndicator = document.getElementById('loading');
             
-            // המיקום של הקובץ שצירפת
-            const textFilePath = "1'1.txt";
+            // רשימת הספרים לחיפוש - הוסף לכאן ספרים נוספים כשתרצה
+            const books = [
+                { name: "דברי הימים", filename: "דברי הימים.txt" },
+                // { name: "בראשית", filename: "בראשית.txt" },
+                // { name: "שמות", filename: "שמות.txt" },
+                // { name: "יהושע", filename: "יהושע.txt" },
+            ];
 
             searchButton.addEventListener('click', performSearch);
             searchInput.addEventListener('keypress', (e) => {
@@ -154,6 +166,12 @@
                     performSearch();
                 }
             });
+            
+            // פונקציה לניקוי תווים לצורך חיפוש והחלפתם ברווח
+            function cleanTextForSearch(text) {
+                // מנקה תוכן בתוך סוגריים מסולסלים, מחליף נקודות, פסיקים ומקפים ברווח
+                return text.replace(/\{.*?\}|[,\.\-]/g, ' ').trim();
+            }
 
             async function performSearch() {
                 const searchTerm = searchInput.value.trim();
@@ -162,74 +180,87 @@
                     return;
                 }
 
-                resultsContainer.innerHTML = ''; // מנקה תוצאות קודמות
-                loadingIndicator.style.display = 'block'; // מציג אנימציית טעינה
+                resultsContainer.innerHTML = '';
+                loadingIndicator.style.display = 'block';
+
+                let allFoundVerses = [];
+                const cleanedSearchTerm = cleanTextForSearch(searchTerm).toLowerCase();
 
                 try {
-                    const response = await fetch(textFilePath);
-                    if (!response.ok) {
-                        throw new Error(`שגיאה בטעינת הקובץ: ${response.statusText}`);
-                    }
-                    const text = await response.text();
-
-                    // ניקוי התגיות {פ} ו-{ס} כפי שביקשת
-                    const cleanedText = text.replace(/{פ}|{ס}|<BIG>|<\/BIG>|<P>|<\/P>/g, '').trim();
-
-                    // פיצול לפי תגית <B>
-                    const parts = cleanedText.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
-
-                    let verseLocation = '';
-                    let verseText = '';
-                    let foundCount = 0;
-                    
-                    for (let i = 0; i < parts.length; i++) {
-                        const part = parts[i].trim();
-                        if (i % 2 === 0) {
-                            // זה הטקסט של הפסוק
-                            verseText = part;
-                            
-                            // בדיקת התאמה לביטוי החיפוש
-                            if (verseText.includes(searchTerm)) {
-                                foundCount++;
-                                displayVerse(verseLocation, verseText, searchTerm);
-                            }
-                        } else {
-                            // זה המיקום של הפסוק (התגית)
-                            verseLocation = part;
+                    // יוצר מערך של הבטחות (Promises) לכל קובץ טקסט
+                    const fetchPromises = books.map(book => fetch(book.filename).then(response => {
+                        if (!response.ok) {
+                            console.error(`שגיאה בטעינת קובץ ${book.filename}: ${response.statusText}`);
+                            return null; // ממשיך לשאר הקבצים גם אם אחד נכשל
                         }
-                    }
+                        return response.text().then(text => ({ bookName: book.name, content: text }));
+                    }));
 
-                    if (foundCount === 0) {
-                        resultsContainer.innerHTML = `<p>לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
-                    }
+                    const loadedFiles = await Promise.all(fetchPromises);
+
+                    loadedFiles.forEach(fileData => {
+                        if (!fileData) return;
+                        
+                        const text = fileData.content;
+                        const bookName = fileData.bookName;
+
+                        const cleanedFileContent = text.replace(/<H1>|<P>|<BIG>|<\/BIG>|<\/P>/g, '').trim();
+                        const parts = cleanedFileContent.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+
+                        for (let i = 0; i < parts.length; i += 2) {
+                            const verseLocation = parts[i];
+                            const verseText = parts[i+1];
+                            const cleanedVerseText = cleanTextForSearch(verseText).toLowerCase();
+                            
+                            if (cleanedVerseText.includes(cleanedSearchTerm)) {
+                                allFoundVerses.push({ book: bookName, location: verseLocation, text: verseText });
+                            }
+                        }
+                    });
+
+                    displayResults(allFoundVerses, searchTerm);
 
                 } catch (error) {
                     resultsContainer.innerHTML = `<p style="color: red;">שגיאה: ${error.message}</p>`;
                 } finally {
-                    loadingIndicator.style.display = 'none'; // מסתיר אנימציית טעינה
+                    loadingIndicator.style.display = 'none';
                 }
             }
+            
+            function displayResults(verses, searchTerm) {
+                const resultsSummary = document.createElement('div');
+                resultsSummary.id = 'resultsSummary';
+                resultsSummary.textContent = `נמצאו ${verses.length} תוצאות עבור '${searchTerm}':`;
+                resultsContainer.appendChild(resultsSummary);
 
-            function displayVerse(location, text, highlightTerm) {
-                const verseCard = document.createElement('div');
-                verseCard.classList.add('verse-card');
+                if (verses.length === 0) {
+                    resultsContainer.innerHTML += `<p>לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
+                    return;
+                }
                 
-                const verseLocation = document.createElement('div');
-                verseLocation.classList.add('verse-location');
-                verseLocation.textContent = location;
+                const regexPattern = searchTerm.replace(/[-\s\.,]/g, '[-.,\\s]?');
+                const searchTermRegex = new RegExp(`(${regexPattern})`, 'gi');
                 
-                const verseText = document.createElement('div');
-                verseText.classList.add('verse-text');
-                
-                // הדגשת מילת החיפוש
-                const regex = new RegExp(`(${highlightTerm})`, 'g');
-                verseText.innerHTML = text.replace(regex, '<b>$1</b>');
+                verses.forEach(verse => {
+                    const verseCard = document.createElement('div');
+                    verseCard.classList.add('verse-card');
+                    
+                    const verseLocation = document.createElement('div');
+                    verseLocation.classList.add('verse-location');
+                    verseLocation.textContent = `${verse.book} ${verse.location.replace(/<H1>|<P>|<BIG>|<\/BIG>|<\/P>/g, '').trim()}`;
+                    
+                    const verseText = document.createElement('div');
+                    verseText.classList.add('verse-text');
+                    
+                    const displayVerseText = verse.text.replace(/\{.*?\}/g, '').trim();
+                    
+                    verseText.innerHTML = displayVerseText.replace(searchTermRegex, '<b>$1</b>');
 
-                verseCard.appendChild(verseLocation);
-                verseCard.appendChild(verseText);
-                resultsContainer.appendChild(verseCard);
+                    verseCard.appendChild(verseLocation);
+                    verseCard.appendChild(verseText);
+                    resultsContainer.appendChild(verseCard);
+                });
             }
-
         });
     </script>
 </body>
