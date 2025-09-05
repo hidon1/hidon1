@@ -99,13 +99,6 @@
             transform: translateY(-3px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
-        #resultsSummary {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
 
         .verse-location {
             font-weight: 700;
@@ -124,7 +117,7 @@
             color: #777;
             display: none;
         }
-        
+
     </style>
 </head>
 <body>
@@ -162,11 +155,10 @@
                 }
             });
             
-            // פונקציה לניקוי תווים לצורך חיפוש (החלפת סימנים ברווח)
-            function cleanTextForSearch(text) {
-                // מנקה תוכן בתוך סוגריים מסולסלים, וכל תו פיסוק בודד (מקף, נקודה, פסיק)
-                // ומחליף אותם ברווח. בנוסף, מסיר תגיות BIG, P, H1 וכו'.
-                return text.replace(/\{.*?\}|<H1>|<P>|<BIG>|<\/BIG>|<\/P>|[,\.\-]/g, ' ').trim();
+            // פונקציה לניקוי תווים
+            function cleanText(text) {
+                // מנקה תגיות HTML ותווי פיסוק נוספים
+                return text.replace(/<H1>|<P>|<BIG>|<\/BIG>|<P>|<\/P>|{פ}|{ס}|[,\.\-]/g, '').trim();
             }
 
             async function performSearch() {
@@ -182,80 +174,71 @@
                 try {
                     const response = await fetch(textFilePath);
                     if (!response.ok) {
-                        if (response.status === 404) {
-                            throw new Error(`שגיאה: הקובץ "${textFilePath}" לא נמצא. ודא שהוא נמצא באותה תיקייה כמו קובץ ה-HTML.`);
-                        } else {
-                            throw new Error(`שגיאה בטעינת הקובץ: ${response.statusText}`);
-                        }
+                        throw new Error(`שגיאה בטעינת הקובץ: ${response.statusText}`);
                     }
                     const text = await response.text();
                     
-                    // פיצול הקובץ לפי תגית <B> כדי להפריד בין פסוקים
-                    const parts = text.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+                    // ניקוי הקובץ לפני החיפוש
+                    const cleanedFileContent = cleanText(text);
 
-                    let foundVerses = [];
-                    const cleanedSearchTerm = cleanTextForSearch(searchTerm).toLowerCase();
+                    // פיצול לפי תגית <B>
+                    const parts = cleanedFileContent.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+
+                    let verseLocation = '';
+                    let verseText = '';
+                    let foundCount = 0;
                     
-                    for (let i = 0; i < parts.length; i += 2) {
-                        const verseLocation = parts[i];
-                        const verseText = parts[i+1];
-                        
-                        // ניקוי טקסט הפסוק לצורך חיפוש והדגשה
-                        const cleanedVerseText = cleanTextForSearch(verseText).toLowerCase();
-                        
-                        // בדיקת התאמה לביטוי החיפוש
-                        if (cleanedVerseText.includes(cleanedSearchTerm)) {
-                            foundVerses.push({ location: verseLocation, text: verseText });
+                    const cleanedSearchTerm = cleanText(searchTerm);
+
+                    for (let i = 0; i < parts.length; i++) {
+                        const part = parts[i].trim();
+                        if (i % 2 === 0) {
+                            // זה הטקסט של הפסוק
+                            verseText = part;
+                            
+                            // בדיקת התאמה לביטוי החיפוש
+                            if (cleanText(verseText).includes(cleanedSearchTerm)) {
+                                foundCount++;
+                                displayVerse(verseLocation, verseText, cleanedSearchTerm);
+                            }
+                        } else {
+                            // זה המיקום של הפסוק (התגית)
+                            verseLocation = part;
                         }
                     }
 
-                    displayResults(foundVerses, searchTerm);
+                    if (foundCount === 0) {
+                        resultsContainer.innerHTML = `<p>לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
+                    }
 
                 } catch (error) {
-                    resultsContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
+                    resultsContainer.innerHTML = `<p style="color: red;">שגיאה: ${error.message}</p>`;
                 } finally {
                     loadingIndicator.style.display = 'none'; // מסתיר אנימציית טעינה
                 }
             }
-            
-            function displayResults(verses, searchTerm) {
-                const resultsSummary = document.createElement('div');
-                resultsSummary.id = 'resultsSummary';
-                resultsSummary.textContent = `נמצאו ${verses.length} תוצאות עבור '${searchTerm}':`;
-                resultsContainer.appendChild(resultsSummary);
 
-                if (verses.length === 0) {
-                    resultsContainer.innerHTML += `<p>לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
-                    return;
-                }
+            function displayVerse(location, text, highlightTerm) {
+                const verseCard = document.createElement('div');
+                verseCard.classList.add('verse-card');
                 
-                // יצירת ביטוי רגולרי גמיש שמתאים גם לרווחים וגם למקפים, נקודות ופסיקים
-                // מחליף את המקף, נקודה או פסיק שביקש המשתמש לחפש, באופציה של תו זה או רווח
-                const searchTermRegex = new RegExp(searchTerm.replace(/[-\.,]/g, '[-.,]?'), 'gi');
+                const verseLocation = document.createElement('div');
+                verseLocation.classList.add('verse-location');
+                verseLocation.textContent = location;
+                
+                const verseText = document.createElement('div');
+                verseText.classList.add('verse-text');
+                
+                // הדגשת מילת החיפוש
+                const regex = new RegExp(`(${highlightTerm})`, 'g');
+                // מציגים את הטקסט המקורי (ללא ניקוי פיסוק) אך עם הדגשה
+                verseText.innerHTML = text.replace(regex, '<b>$1</b>');
 
-                verses.forEach(verse => {
-                    const verseCard = document.createElement('div');
-                    verseCard.classList.add('verse-card');
-                    
-                    const verseLocation = document.createElement('div');
-                    verseLocation.classList.add('verse-location');
-                    // מנקה את התגים ממיקום הפסוק לפני הצגתו
-                    verseLocation.textContent = verse.location.replace(/<H1>|<P>|<BIG>|<\/BIG>|<\/P>/g, '').trim();
-                    
-                    const verseText = document.createElement('div');
-                    verseText.classList.add('verse-text');
-                    
-                    // הסרת התוכן שבסוגריים מסולסלים בתוצאה
-                    const displayVerseText = verse.text.replace(/\{.*?\}/g, '').trim();
-                    
-                    // הדגשת מילת החיפוש בטקסט המקורי (שנקי מסוגריים מסולסלים)
-                    verseText.innerHTML = displayVerseText.replace(searchTermRegex, '<b>$&</b>');
-
-                    verseCard.appendChild(verseLocation);
-                    verseCard.appendChild(verseText);
-                    resultsContainer.appendChild(verseCard);
-                });
+                verseCard.appendChild(verseLocation);
+                verseCard.appendChild(verseText);
+                resultsContainer.appendChild(verseCard);
             }
+
         });
     </script>
 </body>
