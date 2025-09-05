@@ -154,6 +154,12 @@
                     performSearch();
                 }
             });
+            
+            // פונקציה לניקוי תווים
+            function cleanText(text) {
+                // מנקה תגיות HTML ותווי פיסוק נוספים
+                return text.replace(/<H1>|<P>|<BIG>|<\/BIG>|<P>|<\/P>|{פ}|{ס}|[,\.\-]/g, '').trim();
+            }
 
             async function performSearch() {
                 const searchTerm = searchInput.value.trim();
@@ -171,17 +177,19 @@
                         throw new Error(`שגיאה בטעינת הקובץ: ${response.statusText}`);
                     }
                     const text = await response.text();
-
-                    // ניקוי התגיות {פ} ו-{ס} כפי שביקשת
-                    const cleanedText = text.replace(/{פ}|{ס}|<BIG>|<\/BIG>|<P>|<\/P>/g, '').trim();
+                    
+                    // ניקוי הקובץ לפני החיפוש
+                    const cleanedFileContent = cleanText(text);
 
                     // פיצול לפי תגית <B>
-                    const parts = cleanedText.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+                    const parts = cleanedFileContent.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
 
                     let verseLocation = '';
                     let verseText = '';
                     let foundCount = 0;
                     
+                    const cleanedSearchTerm = cleanText(searchTerm);
+
                     for (let i = 0; i < parts.length; i++) {
                         const part = parts[i].trim();
                         if (i % 2 === 0) {
@@ -189,9 +197,9 @@
                             verseText = part;
                             
                             // בדיקת התאמה לביטוי החיפוש
-                            if (verseText.includes(searchTerm)) {
+                            if (cleanText(verseText).includes(cleanedSearchTerm)) {
                                 foundCount++;
-                                displayVerse(verseLocation, verseText, searchTerm);
+                                displayVerse(verseLocation, verseText, cleanedSearchTerm);
                             }
                         } else {
                             // זה המיקום של הפסוק (התגית)
@@ -223,6 +231,7 @@
                 
                 // הדגשת מילת החיפוש
                 const regex = new RegExp(`(${highlightTerm})`, 'g');
+                // מציגים את הטקסט המקורי (ללא ניקוי פיסוק) אך עם הדגשה
                 verseText.innerHTML = text.replace(regex, '<b>$1</b>');
 
                 verseCard.appendChild(verseLocation);
