@@ -157,8 +157,8 @@
             
             // פונקציה לניקוי תווים
             function cleanText(text) {
-                // מנקה תגיות HTML ותווי פיסוק נוספים
-                return text.replace(/<H1>|<P>|<BIG>|<\/BIG>|<P>|<\/P>|{פ}|{ס}|[,\.\-]/g, '').trim();
+                // מנקה תגיות HTML ותווי פיסוק נוספים, כולל החלפת מקף ברווח
+                return text.replace(/<H1>|<P>|<BIG>|<\/BIG>|<P>|<\/P>|{פ}|{ס}|[,\.\-]/g, ' ').trim();
             }
 
             async function performSearch() {
@@ -182,7 +182,7 @@
                     const cleanedFileContent = cleanText(text);
 
                     // פיצול לפי תגית <B>
-                    const parts = cleanedFileContent.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+                    const parts = text.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
 
                     let verseLocation = '';
                     let verseText = '';
@@ -199,7 +199,7 @@
                             // בדיקת התאמה לביטוי החיפוש
                             if (cleanText(verseText).includes(cleanedSearchTerm)) {
                                 foundCount++;
-                                displayVerse(verseLocation, verseText, cleanedSearchTerm);
+                                displayVerse(verseLocation, verseText, searchTerm);
                             }
                         } else {
                             // זה המיקום של הפסוק (התגית)
@@ -230,9 +230,10 @@
                 verseText.classList.add('verse-text');
                 
                 // הדגשת מילת החיפוש
-                const regex = new RegExp(`(${highlightTerm})`, 'g');
+                const cleanedHighlightTerm = cleanText(highlightTerm);
+                const regex = new RegExp(cleanedHighlightTerm.replace(/ /g, '[- ]?'), 'g');
                 // מציגים את הטקסט המקורי (ללא ניקוי פיסוק) אך עם הדגשה
-                verseText.innerHTML = text.replace(regex, '<b>$1</b>');
+                verseText.innerHTML = text.replace(regex, '<b>$&</b>');
 
                 verseCard.appendChild(verseLocation);
                 verseCard.appendChild(verseText);
