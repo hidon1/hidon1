@@ -8,12 +8,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');
 
         :root {
-            --primary-color: #004d40;
-            --secondary-color: #880e4f;
-            --background-color: #f0f4f8;
+            --primary-color: #3f51b5;
+            --secondary-color: #ff5722;
+            --background-color: #e8eaf6;
             --card-background: #ffffff;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
         body {
@@ -21,131 +21,227 @@
             background-color: var(--background-color);
             color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 40px;
             direction: rtl;
             text-align: right;
+            transition: background-color 0.3s ease;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
             background-color: var(--card-background);
-            padding: 30px;
+            padding: 40px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            transform: translateY(0);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         header h1 {
             color: var(--primary-color);
-            font-size: 2.5em;
+            font-size: 3em;
             font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #777;
+            font-size: 1.1em;
         }
 
         .search-container {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
-        #searchInput {
+        .search-input-group {
             flex-grow: 1;
-            padding: 12px 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        #searchInput, #bookInput {
+            flex-grow: 1;
+            padding: 15px 20px;
             font-size: 1.1em;
             border: 2px solid #ddd;
             border-radius: var(--border-radius);
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        #searchInput:focus {
+        #searchInput:focus, #bookInput:focus {
             outline: none;
             border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2);
         }
 
-        #searchButton {
-            padding: 12px 25px;
+        .action-button {
+            padding: 15px 30px;
             font-size: 1.1em;
             font-weight: 700;
             color: #fff;
-            background-color: var(--primary-color);
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s ease-in-out;
+        }
+
+        #searchButton {
+            background-color: var(--primary-color);
         }
 
         #searchButton:hover {
-            background-color: #00382e;
+            background-color: #303f9f;
+            transform: translateY(-2px);
+        }
+
+        #showBookButton {
+            background-color: #607d8b;
+        }
+        
+        #showBookButton:hover {
+            background-color: #455a64;
+            transform: translateY(-2px);
         }
 
         #resultsContainer {
             min-height: 200px;
+            padding-top: 10px;
         }
 
         .verse-card {
             background-color: #f9f9f9;
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 15px;
             border-radius: var(--border-radius);
-            border-right: 4px solid var(--secondary-color);
-            transition: transform 0.2s ease-in-out;
+            border-right: 5px solid var(--secondary-color);
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s;
         }
 
         .verse-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
         .verse-location {
             font-weight: 700;
             color: var(--secondary-color);
-            margin-bottom: 5px;
-            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-size: 1.2em;
         }
 
         .verse-text {
-            line-height: 1.6;
-        }
-        
-        #loading {
-            text-align: center;
-            font-size: 1.2em;
-            color: #777;
-            display: none;
+            line-height: 1.8;
+            color: #555;
+            font-size: 1em;
         }
 
+        .full-text-display {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .full-text-title {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .full-text-verse {
+            margin-bottom: 20px;
+        }
+
+        .full-text-verse .verse-location {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .back-button {
+            background-color: #777;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: #555;
+        }
+
+        #loading {
+            text-align: center;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            display: none;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .highlight {
+            font-weight: 700;
+            color: var(--primary-color);
+            background-color: #e0e8ff;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>חיפוש בפסוקי התנ"ך</h1>
-            <p>הזן מילה או ביטוי לחיפוש בקובץ הטקסט של דברי הימים.</p>
+            <h1>חיפוש בתנ"ך</h1>
+            <p>הזן מילה או ביטוי לחיפוש בפסוקים, או הקלד שם של ספר כדי להציג אותו במלואו.</p>
         </header>
         
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="הזן מילת חיפוש...">
-            <button id="searchButton">חפש</button>
+            <div class="search-input-group">
+                <input type="text" id="searchInput" placeholder="הזן מילת חיפוש...">
+                <button id="searchButton" class="action-button">חפש פסוקים</button>
+            </div>
+            <div class="search-input-group">
+                <input type="text" id="bookInput" placeholder="הזן שם ספר (לדוגמה: בראשית)...">
+                <button id="showBookButton" class="action-button">הצג ספר</button>
+            </div>
         </div>
         
         <div id="loading">...טוען</div>
-        <div id="resultsContainer">
-            </div>
+        <div id="resultsContainer"></div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const searchButton = document.getElementById('searchButton');
             const searchInput = document.getElementById('searchInput');
+            const showBookButton = document.getElementById('showBookButton');
+            const bookInput = document.getElementById('bookInput');
             const resultsContainer = document.getElementById('resultsContainer');
             const loadingIndicator = document.getElementById('loading');
             
-            // שינוי 1: מערך של כל שמות הקבצים
+            const BOOK_FILES_PATH = 'tanach/';
             const allBooks = [
                 "בראשית.txt", "שמות.txt", "ויקרא.txt", "במדבר.txt", "דברים.txt",
                 "יהושע.txt", "שופטים.txt", "שמואל.txt",
@@ -157,17 +253,22 @@
                 "דניאל.txt", "עזרא.txt", "נחמיה.txt","דברי הימים.txt"
             ];
             
+            let currentResults = []; // לשמירת תוצאות החיפוש הנוכחיות
 
             searchButton.addEventListener('click', performSearch);
+            showBookButton.addEventListener('click', showFullBook);
             searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     performSearch();
                 }
             });
+            bookInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    showFullBook();
+                }
+            });
             
-            // פונקציה לניקוי תווים
             function cleanText(text) {
-                // מנקה תגיות HTML, תווים מיוחדים ומחליף מקפים ורווחים כפולים ברווח בודד
                 return text
                     .replace(/<H1>|<P>|<BIG>|<\/BIG>|<\/P>|{פ}|{ס}|[,\.;:"']/g, ' ')
                     .replace(/[\-–—]+/g, ' ')
@@ -182,8 +283,8 @@
                     return;
                 }
 
-                resultsContainer.innerHTML = ''; // מנקה תוצאות קודמות
-                loadingIndicator.style.display = 'block'; // מציג אנימציית טעינה
+                resultsContainer.innerHTML = '';
+                loadingIndicator.style.display = 'block';
 
                 const cleanedSearchTerm = cleanText(searchTerm);
                 if (!cleanedSearchTerm) {
@@ -192,38 +293,34 @@
                     return;
                 }
                 
+                currentResults = [];
                 let foundCount = 0;
 
                 try {
-                    // שינוי 2: לולאה על כל הקבצים
                     for (const bookFileName of allBooks) {
-                        const response = await fetch(bookFileName);
+                        const response = await fetch(BOOK_FILES_PATH + bookFileName);
                         if (!response.ok) {
                             console.error(`שגיאה בטעינת הקובץ ${bookFileName}: ${response.statusText}`);
-                            continue; // ממשיך לקובץ הבא אם יש שגיאה
+                            continue;
                         }
                         const text = await response.text();
                         
-                        // פיצול לפי תגית <B>
                         const parts = text.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
-
                         let verseLocation = '';
                         let verseText = '';
                         
                         for (let i = 0; i < parts.length; i++) {
                             const part = parts[i].trim();
                             if (i % 2 === 0) {
-                                // זה הטקסט של הפסוק
                                 verseText = part;
                                 
-                                // בדיקת התאמה לביטוי החיפוש
                                 if (cleanText(verseText).includes(cleanedSearchTerm)) {
                                     foundCount++;
-                                    // שינוי 3: מעבירים את שם הספר לפונקציה
-                                    displayVerse(bookFileName.replace('.txt', ''), verseLocation, verseText, cleanedSearchTerm);
+                                    const bookName = bookFileName.replace('.txt', '');
+                                    currentResults.push({ bookName, verseLocation, verseText, bookFileName });
+                                    displayVerseCard(bookName, verseLocation, verseText, cleanedSearchTerm, i);
                                 }
                             } else {
-                                // זה המיקום של הפסוק (התגית)
                                 verseLocation = part;
                             }
                         }
@@ -236,38 +333,162 @@
                 } catch (error) {
                     resultsContainer.innerHTML = `<p style="color: red;">שגיאה: ${error.message}</p>`;
                 } finally {
-                    loadingIndicator.style.display = 'none'; // מסתיר אנימציית טעינה
+                    loadingIndicator.style.display = 'none';
                 }
             }
-            
-            // שינוי 4: הפונקציה מקבלת גם את שם הספר
-            function displayVerse(bookName, location, text, highlightTerm) {
+
+            function displayVerseCard(bookName, location, text, highlightTerm, index) {
                 const verseCard = document.createElement('div');
                 verseCard.classList.add('verse-card');
+                verseCard.dataset.index = index;
                 
                 const verseLocation = document.createElement('div');
                 verseLocation.classList.add('verse-location');
-                // שינוי 5: מציגים את שם הספר ואת המיקום
                 verseLocation.textContent = `${bookName} | ${location}`;
                 
                 const verseText = document.createElement('div');
                 verseText.classList.add('verse-text');
                 
-                // יצירת ביטוי רגולרי להדגשה
                 const highlightWords = highlightTerm.split(' ');
                 const escapedWords = highlightWords.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-                const regex = new RegExp(`(${escapedWords.join('[-–—]*')})`, 'gi');
-
-                // מציגים את הטקסט המקורי (ללא ניקוי פיסוק) אך עם הדגשה
-                verseText.innerHTML = text.replace(regex, '<b>$&</b>');
+                const regex = new RegExp(`(${escapedWords.join('|')})`, 'gi');
+                verseText.innerHTML = text.replace(regex, `<span class="highlight">$&</span>`);
 
                 verseCard.appendChild(verseLocation);
                 verseCard.appendChild(verseText);
                 resultsContainer.appendChild(verseCard);
+                
+                verseCard.addEventListener('click', () => {
+                    const result = currentResults.find(r => r.verseLocation === location && r.bookName === bookName);
+                    if (result) {
+                        showFullChapter(result.bookFileName, location, highlightTerm);
+                    }
+                });
+            }
+
+            async function showFullBook() {
+                const bookName = bookInput.value.trim();
+                if (!bookName) {
+                    alert('אנא הזן שם של ספר.');
+                    return;
+                }
+
+                const bookFileName = allBooks.find(b => b.replace('.txt', '') === bookName);
+                if (!bookFileName) {
+                    alert(`הספר '${bookName}' לא נמצא. אנא ודא שהשם נכון.`);
+                    return;
+                }
+                
+                resultsContainer.innerHTML = '';
+                loadingIndicator.style.display = 'block';
+
+                try {
+                    const response = await fetch(BOOK_FILES_PATH + bookFileName);
+                    if (!response.ok) {
+                        throw new Error(`שגיאה בטעינת הקובץ ${bookFileName}: ${response.statusText}`);
+                    }
+                    const text = await response.text();
+                    displayFullText(bookName, text);
+                } catch (error) {
+                    resultsContainer.innerHTML = `<p style="color: red;">שגיאה: ${error.message}</p>`;
+                } finally {
+                    loadingIndicator.style.display = 'none';
+                }
+            }
+
+            async function showFullChapter(bookFileName, verseLocation, highlightTerm) {
+                resultsContainer.innerHTML = '';
+                loadingIndicator.style.display = 'block';
+                
+                try {
+                    const response = await fetch(BOOK_FILES_PATH + bookFileName);
+                    if (!response.ok) {
+                        throw new Error(`שגיאה בטעינת הקובץ ${bookFileName}: ${response.statusText}`);
+                    }
+                    const text = await response.text();
+                    
+                    const chapterNum = verseLocation.split(':')[0];
+                    const chapterRegex = new RegExp(`<B>${chapterNum}:(.*?)(?=<B>|$)`, 's');
+                    const match = text.match(chapterRegex);
+                    
+                    if (match) {
+                        const chapterText = match[0];
+                        const bookName = bookFileName.replace('.txt', '');
+                        displayFullText(bookName, chapterText, highlightTerm);
+                    } else {
+                        resultsContainer.innerHTML = `<p>לא ניתן למצוא את הפרק.</p>`;
+                    }
+                } catch (error) {
+                    resultsContainer.innerHTML = `<p style="color: red;">שגיאה: ${error.message}</p>`;
+                } finally {
+                    loadingIndicator.style.display = 'none';
+                }
+            }
+
+            function displayFullText(bookName, fullText, highlightTerm = '') {
+                resultsContainer.innerHTML = '';
+                
+                const backButton = document.createElement('button');
+                backButton.classList.add('back-button');
+                backButton.textContent = 'חזור לתוצאות החיפוש';
+                backButton.addEventListener('click', () => {
+                    resultsContainer.innerHTML = '';
+                    if (currentResults.length > 0) {
+                        currentResults.forEach(r => {
+                             displayVerseCard(r.bookName, r.verseLocation, r.verseText, searchInput.value.trim(), 0);
+                        });
+                    } else {
+                        resultsContainer.innerHTML = `<p>לא נמצאו תוצאות עבור '${searchInput.value.trim()}'.</p>`;
+                    }
+                });
+                
+                const textDisplay = document.createElement('div');
+                textDisplay.classList.add('full-text-display');
+                
+                const title = document.createElement('div');
+                title.classList.add('full-text-title');
+                title.textContent = bookName;
+                textDisplay.appendChild(title);
+
+                const parts = fullText.split(/<B>|<\/B>/).filter(part => part.trim() !== '');
+                
+                let currentChapter = '';
+                for (let i = 0; i < parts.length; i++) {
+                    const part = parts[i].trim();
+                    if (i % 2 !== 0) {
+                        currentChapter = part;
+                        
+                        const verseContainer = document.createElement('div');
+                        verseContainer.classList.add('full-text-verse');
+                        
+                        const verseLocation = document.createElement('div');
+                        verseLocation.classList.add('verse-location');
+                        verseLocation.textContent = currentChapter;
+                        verseContainer.appendChild(verseLocation);
+                        
+                        const verseText = document.createElement('div');
+                        verseText.classList.add('verse-text');
+                        
+                        let verseContent = parts[i+1];
+                        if (highlightTerm) {
+                            const highlightWords = highlightTerm.split(' ');
+                            const escapedWords = highlightWords.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+                            const regex = new RegExp(`(${escapedWords.join('|')})`, 'gi');
+                            verseContent = verseContent.replace(regex, `<span class="highlight">$&</span>`);
+                        }
+                        
+                        verseText.innerHTML = verseContent;
+                        verseContainer.appendChild(verseText);
+                        textDisplay.appendChild(verseContainer);
+                        i++;
+                    }
+                }
+                
+                resultsContainer.appendChild(backButton);
+                resultsContainer.appendChild(textDisplay);
             }
 
         });
     </script>
 </body>
 </html>
-
