@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -6,18 +7,20 @@
     <title>חיפוש בתנ"ך</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;700&family=Frank+Ruhl+Libre:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&family=Noto+Serif+Hebrew:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-accent: linear-gradient(135deg, #50C9C3 0%, #96DEDA 100%);
-            --background-light: #f8f9fa;
-            --text-color: #2c3e50;
-            --card-background: rgba(255, 255, 255, 0.7);
-            --border-radius-lg: 16px;
-            --border-radius-md: 12px;
-            --box-shadow-light: 0 8px 32px 0 rgba(31, 38, 135, 0.17);
+            --gradient-primary: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --gradient-accent: linear-gradient(135deg, #c09b3b 0%, #d4af37 100%);
+            --background-light: #fdfcf9;
+            --text-color: #212529; 
+            --text-secondary: #6c757d;
+            --card-background: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(0, 0, 0, 0.07);
+            --border-radius-lg: 12px;
+            --border-radius-md: 8px;
+            --box-shadow-light: 0 10px 40px rgba(0, 0, 0, 0.06);
             --base-font-size: 1.1em;
             --results-font-size-multiplier: 1;
             --reader-font-size-multiplier: 1;
@@ -28,235 +31,71 @@
         }
 
         body.dark-mode {
-            --background-light: #1a1a2e;
-            --text-color: #ecf0f1;
-            --card-background: rgba(22, 33, 62, 0.75);
-            --modal-background: rgba(22, 33, 62, 0.9);
+            --gradient-primary: linear-gradient(135deg, #3a7bd5 0%, #3a6073 100%);
+            --background-light: #12181F;
+            --text-color: #e9ecef; 
+            --text-secondary: #adb5bd;
+            --card-background: rgba(26, 43, 60, 0.75);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --modal-background: #1A2B3C;
         }
 
         body {
-            font-family: 'Noto Sans Hebrew', sans-serif;
-            background: var(--background-light);
-            color: var(--text-color);
-            margin: 0;
-            padding: 30px 20px;
-            direction: rtl;
-            text-align: right;
-            line-height: 1.7;
-            transition: background-color 0.3s ease;
-            background-image:
-                radial-gradient(circle at 15% 85%, rgba(102, 126, 234, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 85% 15%, rgba(80, 201, 195, 0.2) 0%, transparent 40%);
+            font-family: 'Heebo', sans-serif;
+            background-color: var(--background-light);
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cg fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.03"%3E%3Cpath opacity=".5" d="M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z"/%3E%3Cpath d="M6 5V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h4V0h1v5h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h5v1h-5v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4h-1v-4h-4v4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4v-4H0v-1h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0h1v4h4V0z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+            color: var(--text-color); margin: 0; padding: 40px 20px; direction: rtl; text-align: right; line-height: 1.8; transition: background-color 0.3s ease;
         }
         
         .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: var(--card-background);
-            padding: 50px;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--box-shadow-light);
-            position: relative;
-            z-index: 100;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            max-width: 900px; margin: 0 auto; background: var(--card-background); padding: 50px; border-radius: var(--border-radius-lg); box-shadow: var(--box-shadow-light); position: relative; z-index: 1; border: 1px solid var(--border-color); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
         }
         
-        body.focus-mode .container { display: none; }
-        body.focus-mode .reader-focus-container { display: block; }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* === FIXED: Logo animation restored === */
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(1.8); opacity: 0; }
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .logo-icon {
-            width: 70px;
-            height: 70px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .logo-icon::before { content: "📜"; font-size: 2.2em; position: absolute; }
-        
-        /* === FIXED: Logo animation restored === */
-        .logo-icon::after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: var(--gradient-accent);
-            opacity: 0;
-            animation: pulse-ring 2s infinite;
-        }
+        header { text-align: center; margin-bottom: 50px; }
+        .logo-container { display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+        .logo-icon { width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); animation: float 3s ease-in-out infinite; }
+        .logo-icon::before { content: "📜"; font-size: 2em; }
+        .logo-icon::after { content: ""; position: absolute; width: 100%; height: 100%; border-radius: 50%; background: var(--gradient-accent); opacity: 0; animation: pulse-ring 2s infinite; }
         
         header h1 {
-            font-family: 'Frank Ruhl Libre', serif;
-            font-size: 4em;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: -1px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Noto Serif Hebrew', serif;
+            font-size: 3.5em; font-weight: 700; margin: 0; letter-spacing: -1px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        
-        header p {
-            color: #7f8c8d;
-            font-size: 1.3em;
-            max-width: 700px;
-            margin: 15px auto 0;
-        }
+        header p { color: var(--text-secondary); font-size: 1.3em; max-width: 700px; margin: 15px auto 0; font-weight: 400; }
 
-        .search-area {
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            max-width: 700px;
-        }
+        .search-area { margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .input-group { display: flex; width: 100%; max-width: 600px; position: relative; }
         
+        .input-group .search-icon { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); color: var(--text-secondary); font-size: 1.1em; z-index: 2; }
         .input-group input[type="text"] {
-            flex-grow: 1;
-            padding: 18px 25px;
-            font-size: 1.2em;
-            border: 2px solid transparent;
-            border-radius: var(--border-radius-md);
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.5);
-            color: var(--text-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            flex-grow: 1; padding: 18px 55px 18px 25px; font-size: 1.2em; font-family: 'Heebo', sans-serif; border: 1px solid var(--border-color); border-radius: var(--border-radius-md); transition: all 0.3s ease; background: rgba(255,255,255,0.6); color: var(--text-color);
         }
         body.dark-mode .input-group input[type="text"]{ background: rgba(0,0,0,0.2); }
+        .input-group input[type="text"]:focus { outline: none; border-color: #c09b3b; box-shadow: 0 0 0 4px rgba(192, 155, 59, 0.2); }
 
-        .input-group input[type="text"]:focus {
-            outline: none;
-            border-image: var(--gradient-primary) 1;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .action-button {
-            padding: 18px 35px;
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #fff;
-            border: none;
-            border-radius: var(--border-radius-md);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-        
+        .action-button { padding: 18px 35px; font-size: 1.2em; font-weight: 600; font-family: 'Heebo', sans-serif; color: #fff; border: none; border-radius: var(--border-radius-md); cursor: pointer; transition: all 0.3s ease; white-space: nowrap; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
         .action-button.primary { background: var(--gradient-primary); }
-        .action-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        }
-        .action-button.filtered { background: var(--gradient-accent); }
-
-        .hamburger-menu-container { position: relative; z-index: 1000; }
-        #hamburgerMenuBtn {
-            padding: 18px 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-        }
-
-        .menu-dropdown {
-            display: none;
-            position: absolute;
-            top: 70px;
-            right: 0;
-            background: var(--card-background);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            border-radius: var(--border-radius-md);
-            width: 300px;
-            padding: 15px 0;
-            animation: fadeIn 0.3s ease-out;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        .action-button:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
         
-        .menu-dropdown.show { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        #hamburgerMenuBtn { padding: 18px 25px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; }
+
+        #menuDropdown { display: block; position: fixed; top: 0; left: -340px; width: 320px; height: 100%; background: var(--card-background); backdrop-filter: blur(20px); box-shadow: 10px 0 35px rgba(0, 0, 0, 0.15); z-index: 1000; transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 25px 0; overflow-y: auto; }
+        #menuDropdown.show { left: 0; }
         
-        .menu-option {
-            padding: 15px 25px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 1.1em;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-        .menu-option:not(.font-size-control-container):hover {
-            background: rgba(102, 126, 234, 0.1);
-            transform: translateX(-5px);
-        }
+        #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; }
+        #menuOverlay.show { opacity: 1; visibility: visible; }
+
+        .menu-option { padding: 15px 25px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 1.1em; transition: all 0.2s ease; font-weight: 500; }
+        .menu-option:not(.font-size-control-container):hover { background: rgba(192, 155, 59, 0.1); color: var(--text-color); transform: translateX(5px); }
         .menu-option i { width: 20px; text-align: center; margin-left: 10px; }
-        .menu-option.toggle-switch-container { justify-content: flex-end; gap: 10px; font-weight: 600; }
+        .menu-option.toggle-switch-container { justify-content: flex-end; gap: 10px; }
         
         .font-size-control-container { justify-content: space-between; }
-        .font-size-control-container > span { font-weight: 600; }
+        .font-size-control-container > span { font-weight: 500; }
         .font-size-control-container .controls { display: flex; align-items: center; gap: 15px; }
         .font-size-control-container .controls span { font-size: 1em; min-width: 45px; text-align: center; }
-        .font-size-control-container .controls i {
-            cursor: pointer;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.08);
-            transition: all 0.2s ease;
-            margin: 0;
-        }
-        .font-size-control-container .controls i:hover {
-            background: var(--gradient-primary);
-            color: white;
-            transform: scale(1.1);
-        }
+        .font-size-control-container .controls i { cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.08); transition: all 0.2s ease; margin: 0; }
+        .font-size-control-container .controls i:hover { background: var(--gradient-primary); color: white; transform: scale(1.1); }
 
         .switch { position: relative; display: inline-block; width: 55px; height: 32px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -264,70 +103,56 @@
         .slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);}
         input:checked + .slider { background-image: var(--gradient-accent); }
         input:checked + .slider:before { transform: translateX(23px); }
+        
+        .menu-divider { height: 1px; background-color: var(--border-color); margin: 20px 25px; }
+        .menu-header { padding: 0 25px 10px; font-weight: 700; font-size: 1.1em; color: var(--text-color); opacity: 0.8; }
+        #searchHistoryList { list-style: none; padding: 0; margin: 0; }
+        #searchHistoryList li { padding: 12px 25px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; }
+        #searchHistoryList li:hover { background: rgba(192, 155, 59, 0.1); transform: translateX(5px); }
+        #searchHistoryList li i { margin-left: 15px; color: var(--text-secondary); }
 
         #loading { display: none; text-align: center; font-size: 1.3em; margin-top: 20px; }
         #loading i { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 3px solid transparent; border-image: var(--gradient-primary) 1; padding-bottom: 15px;}
-        .results-header h3 { margin: 0; font-size: 1.8em; font-weight: 600; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;}
-        .results-header .search-mode { font-size: 1.1em; color: #7f8c8d; font-style: italic; font-weight: 500; }
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
+        .results-header h3 { margin: 0; font-size: 1.8em; font-weight: 700; font-family: 'Noto Serif Hebrew', serif; color: var(--text-color); }
+        .results-header .search-mode { font-size: 1.1em; color: var(--text-secondary); }
         
+        /* === NEW: Staggered animation styles === */
         .verse-card {
-            background: var(--card-background);
-            padding: 30px;
-            margin-bottom: 25px;
-            border-right: 6px solid transparent;
-            border-image: var(--gradient-accent) 1;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border-radius: var(--border-radius-md);
+            background: var(--card-background); padding: 35px; margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--box-shadow-light);
+            cursor: pointer; transition: all 0.3s ease; border-radius: var(--border-radius-lg);
+            opacity: 0; transform: translateY(20px);
         }
-        .verse-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); }
-        .verse-location { font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 15px; font-size: 1.3em; }
-        .verse-location .gematria-value { font-size: 0.9em; color: #7f8c8d; font-style: italic; margin-right: 10px; }
-        .verse-text { line-height: 1.9; font-family: 'Frank Ruhl Libre', serif; font-size: calc(var(--base-font-size) * var(--results-font-size-multiplier)); transition: font-size 0.2s ease; }
+        .verse-card.visible { opacity: 1; transform: translateY(0); }
+        .verse-card:hover { transform: translateY(-5px); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1); border-color: #c09b3b; }
         
-        .modal-book-text {
-            font-family: 'Frank Ruhl Libre', serif;
-            font-size: calc(var(--base-font-size) * var(--reader-font-size-multiplier));
-            line-height: 1.9;
-            transition: font-size 0.2s ease;
-        }
+        .verse-location { font-weight: 600; font-family: 'Heebo', sans-serif; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 15px; font-size: 1.3em; }
+        .verse-location .gematria-value { font-size: 0.9em; color: var(--text-secondary); }
+        .verse-text { line-height: 1.9; font-family: 'Noto Serif Hebrew', serif; font-size: calc(var(--base-font-size) * var(--results-font-size-multiplier)); transition: font-size 0.2s ease; }
+        
+        .modal-book-text { font-family: 'Noto Serif Hebrew', serif; font-size: calc(var(--base-font-size) * var(--reader-font-size-multiplier)); line-height: 1.9; transition: font-size 0.2s ease; }
 
-        .highlight, .gematria-word {
-            font-weight: 700;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            padding: 2px 4px;
-            border-radius: 6px;
-            position: relative;
-        }
-        .highlight::before, .gematria-word::before {
-            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(80, 201, 195, 0.15); 
-            border-radius: 6px; z-index: -1;
-        }
+        .highlight, .gematria-word { font-weight: 600; background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; padding: 2px 4px; border-radius: 6px; position: relative; }
+        .highlight::before, .gematria-word::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(192, 155, 59, 0.15); border-radius: 6px; z-index: -1; }
         
         .modal { display: none; position: fixed; z-index: 2001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; }
-        .modal-content { 
-            background: var(--modal-background);
-            backdrop-filter: blur(20px); margin: auto; padding: 30px; border-radius: var(--border-radius-lg); width: 90%; max-width: 800px; box-shadow: var(--box-shadow-light); position: relative; max-height: 90vh; overflow-y: auto; text-align: right; }
-        .modal-book-title { font-size: 2.2em; margin-bottom: 20px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .modal-content { background: var(--modal-background); backdrop-filter: blur(20px); margin: auto; padding: 40px; padding-left: 20px; border-radius: var(--border-radius-lg); width: 90%; max-width: 800px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); }
+        .modal-book-title { font-family: 'Noto Serif Hebrew', serif; font-size: 2.5em; margin-bottom: 20px; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .close-button { color: #aaa; float: left; font-size: 38px; font-weight: bold; cursor: pointer; transition: color 0.3s ease; }
 
         .sidebar { height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; left: 0; background-color: var(--card-background); backdrop-filter: blur(20px); box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2); transition: 0.5s; overflow-x: hidden; text-align: right; box-sizing: border-box; }
         .sidebar.open { width: 350px; padding: 20px; }
         .sidebar .sidebar-content { padding: 20px; }
         .closebtn { position: absolute; top: 15px; right: 20px; font-size: 36px; cursor: pointer; }
-        .sidebar-header h2 { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align:center; padding-bottom:10px; border-bottom: 2px solid rgba(0,0,0,0.1); }
+        .sidebar-header h2 { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align:center; padding-bottom:10px; border-bottom: 2px solid var(--border-color); }
         .reset-filter-button { background: var(--gradient-accent); border:none; width: 100%; margin-top: 20px; }
 
         #bookList { list-style-type: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
-        .sidebar-book-item { display: block; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); color: var(--text-color); padding: 15px 20px; border-radius: var(--border-radius-md); cursor: pointer; transition: all 0.3s ease; font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        body.dark-mode .sidebar-book-item { background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.1); }
+        .sidebar-book-item { display: block; background: rgba(255, 255, 255, 0.2); border: 1px solid var(--border-color); color: var(--text-color); padding: 15px 20px; border-radius: var(--border-radius-md); cursor: pointer; transition: all 0.3s ease; font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        body.dark-mode .sidebar-book-item { background: rgba(0,0,0,0.2); }
         .sidebar-book-item label { display: flex; align-items: center; justify-content: space-between; width:100%; cursor: pointer; }
         .sidebar-book-item input[type="checkbox"] { display: none; }
         .sidebar-book-item .checkmark { width: 22px; height: 22px; border: 2px solid #aaa; border-radius: 5px; display: inline-block; position: relative; transition: all 0.2s ease; }
@@ -336,16 +161,37 @@
         .sidebar-book-item:hover { transform: translateX(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: rgba(102, 126, 234, 0.1); }
 
         #readBookList { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; list-style-type: none; padding: 0; margin: 0; }
-        .read-book-item { background: var(--card-background); border-radius: var(--border-radius-md); padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); font-weight: 600; }
-        .read-book-item:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); background: var(--gradient-primary); color: #fff; border-color: transparent; }
+        .read-book-item { background: var(--card-background); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); font-weight: 600; }
+        .read-book-item:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); background: var(--gradient-primary); color: #fff; border-color: transparent; }
 
         .reader-focus-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--background-light); padding: 40px; box-sizing: border-box; overflow-y: auto; z-index: 3000; }
         .focus-mode-close-btn { position: fixed; top: 20px; left: 20px; font-size: 3em; cursor: pointer; color: var(--text-color); }
+        
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-track { background: transparent; }
+        .modal-content::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
+        body.dark-mode .modal-content::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); }
+
+        @media (max-width: 768px) {
+            body { padding: 15px 10px; }
+            .container { padding: 30px 20px; }
+            header h1 { font-size: 2.5em; }
+            .input-group { flex-direction: column; align-items: stretch; }
+            .action-button { width: 100%; box-sizing: border-box; }
+            #hamburgerMenuBtn { position: absolute; top: 0; left: 0; }
+            .input-group input[type="text"] { padding-left: 80px; }
+            .modal-content { width: calc(100% - 20px); padding: 25px; padding-left: 15px; }
+            #menuDropdown { width: 280px; left: -300px; }
+        }
+
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
     </style>
 </head>
 <body>
     
-    <div id="mySidebar" class="sidebar">
+    <div id="menuOverlay"></div>
+
+    <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
             <span class="closebtn">&times;</span>
             <h2>סנן לפי ספר</h2>
@@ -362,62 +208,17 @@
                 <div class="logo-icon"></div>
             </div>
             <h1>חיפוש בתנ"ך</h1>
-            <p>הזן מילים לחיפוש בפסוקים.</p>
+            <p>חקור את כתבי הקודש בעזרת כלי חיפוש מתקדם</p>
         </header>
         
         <div class="search-area">
             <div class="input-group">
-                <input type="text" id="searchInput" placeholder="הזן מילים לחיפוש">
+                <span class="search-icon"><i class="fas fa-search"></i></span>
+                <input type="text" id="searchInput" placeholder="הזן מילים לחיפוש...">
                 <button id="searchButton" class="action-button primary">חפש</button>
-                <div class="hamburger-menu-container">
-                    <div id="hamburgerMenuBtn" class="action-button primary">
-                        <i class="fas fa-bars"></i>
-                    </div>
-                    <div id="menuDropdown" class="menu-dropdown">
-                        <div id="wholeWordToggleContainer" class="menu-option toggle-switch-container">
-                            <label for="wholeWordToggle">מילה שלמה</label>
-                            <label class="switch">
-                                <input type="checkbox" id="wholeWordToggle" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div id="gematriaModeToggle" class="menu-option">
-                            <i class="fas fa-calculator"></i>&nbsp;<span id="gematriaToggleText">חיפוש גימטריה</span>
-                        </div>
-                        <div id="openBookReadModalBtn" class="menu-option">
-                            <i class="fas fa-book-open"></i>&nbsp;קרא ספרים
-                        </div>
-                        <div id="openSidebar" class="menu-option">
-                            <i class="fas fa-filter"></i>&nbsp;סנן לפי ספר
-                        </div>
-                        <div id="darkModeToggleContainer" class="menu-option toggle-switch-container">
-                            <label for="darkModeToggle">מצב כהה</label>
-                            <label class="switch">
-                                <input type="checkbox" id="darkModeToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div id="focusModeToggle" class="menu-option">
-                            <i class="fas fa-eye"></i>&nbsp;מצב פוקוס
-                        </div>
-                        <div class="menu-option font-size-control-container">
-                            <span>גודל גופן (תוצאות):</span>
-                            <div class="controls">
-                                <i class="fas fa-plus" id="increaseResultsFont"></i>
-                                <span id="resultsFontSizeValue"></span>
-                                <i class="fas fa-minus" id="decreaseResultsFont"></i>
-                            </div>
-                        </div>
-                        <div class="menu-option font-size-control-container">
-                            <span>גודל גופן (קריאה):</span>
-                            <div class="controls">
-                                <i class="fas fa-plus" id="increaseReaderFont"></i>
-                                <span id="readerFontSizeValue"></span>
-                                <i class="fas fa-minus" id="decreaseReaderFont"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button id="hamburgerMenuBtn" class="action-button primary">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
         
@@ -425,6 +226,55 @@
         
         <div id="resultsContainer"></div>
     </div>
+    
+    <div id="menuDropdown">
+        <div id="wholeWordToggleContainer" class="menu-option toggle-switch-container">
+            <label for="wholeWordToggle">מילה שלמה</label>
+            <label class="switch">
+                <input type="checkbox" id="wholeWordToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div id="gematriaModeToggle" class="menu-option">
+            <i class="fas fa-calculator"></i>&nbsp;<span id="gematriaToggleText">חיפוש גימטריה</span>
+        </div>
+        <div id="openBookReadModalBtn" class="menu-option">
+            <i class="fas fa-book-open"></i>&nbsp;קרא ספרים
+        </div>
+        <div id="openSidebar" class="menu-option">
+            <i class="fas fa-filter"></i>&nbsp;סנן לפי ספר
+        </div>
+        <div id="darkModeToggleContainer" class="menu-option toggle-switch-container">
+            <label for="darkModeToggle">מצב לילה</label>
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div id="focusModeToggle" class="menu-option">
+            <i class="fas fa-eye"></i>&nbsp;מצב ריכוז
+        </div>
+        <div class="menu-option font-size-control-container">
+            <span>גודל גופן (תוצאות):</span>
+            <div class="controls">
+                <i class="fas fa-plus" id="increaseResultsFont"></i>
+                <span id="resultsFontSizeValue"></span>
+                <i class="fas fa-minus" id="decreaseResultsFont"></i>
+            </div>
+        </div>
+        <div class="menu-option font-size-control-container">
+            <span>גודל גופן (קריאה):</span>
+            <div class="controls">
+                <i class="fas fa-plus" id="increaseReaderFont"></i>
+                <span id="readerFontSizeValue"></span>
+                <i class="fas fa-minus" id="decreaseReaderFont"></i>
+            </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-header">חיפושים אחרונים</div>
+        <ul id="searchHistoryList"></ul>
+    </div>
+
 
     <div id="fullTextModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('fullTextModal')">&times;</span><div id="modalBookTitle" class="modal-book-title"></div><div id="modalBookText" class="modal-book-text"></div></div></div>
     <div id="bookReadModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('bookReadModal')">&times;</span><h2 class="modal-book-title">קריאת ספרים</h2><ul id="readBookList"></ul></div></div>
@@ -439,11 +289,12 @@
             const loadingIndicator = document.getElementById('loading');
             const hamburgerMenuBtn = document.getElementById('hamburgerMenuBtn');
             const menuDropdown = document.getElementById('menuDropdown');
+            const menuOverlay = document.getElementById('menuOverlay');
             const wholeWordToggle = document.getElementById('wholeWordToggle');
             const gematriaModeToggle = document.getElementById('gematriaModeToggle');
             const gematriaToggleText = document.getElementById('gematriaToggleText');
             const openSidebarBtn = document.getElementById('openSidebar');
-            const sidebar = document.getElementById('mySidebar');
+            const sidebar = document.getElementById('sidebar');
             const openBookReadModalBtn = document.getElementById('openBookReadModalBtn');
             const bookReadModal = document.getElementById('bookReadModal');
             const readBookList = document.getElementById('readBookList');
@@ -459,8 +310,10 @@
             const focusModeToggle = document.getElementById('focusModeToggle');
             const readerFocusContainer = document.getElementById('readerFocusContainer');
             const focusModeContent = document.getElementById('focusModeContent');
+            const searchHistoryList = document.getElementById('searchHistoryList');
 
             const BOOK_FILES_PATH = 'tanach/';
+            const SEARCH_HISTORY_KEY = 'bibleSearchHistory';
             let isGematriaSearchActive = false;
             
             const bookMapping = { "בראשית": ["בראשית.txt"], "שמות": ["שמות.txt"], "ויקרא": ["ויקרא.txt"], "במדבר": ["במדבר.txt"], "דברים": ["דברים.txt"], "יהושע": ["יהושע.txt"], "שופטים": ["שופטים.txt"], "שמואל": ["שמואל.txt"], "מלכים": ["מלכים.txt"], "ישעיהו": ["ישעיהו.txt"], "ירמיהו": ["ירמיהו.txt"], "יחזקאל": ["יחזקאל.txt"], "הושע": ["הושע.txt"], "יואל": ["יואל.txt"], "עמוס": ["עמוס.txt"], "עובדיה": ["עובדיה.txt"], "יונה": ["יונה.txt"], "מיכה": ["מיכה.txt"], "נחום": ["נחום.txt"], "חבקוק": ["חבקוק.txt"], "צפניה": ["צפניה.txt"], "חגי": ["חגי.txt"], "זכריה": ["זכריה.txt"], "מלאכי": ["מלאכי.txt"], "תהילים": ["תהילים.txt"], "משלי": ["משלי.txt"], "איוב": ["איוב.txt"], "שיר השירים": ["שיר השירים.txt"], "רות": ["רות.txt"], "איכה": ["איכה.txt"], "קהלת": ["קהלת.txt"], "אסתר": ["אסתר.txt"], "דניאל": ["דניאל.txt"], "עזרא ונחמיה": ["עזרא ונחמיה.txt"], "דברי הימים": ["דברי הימים.txt"] };
@@ -469,10 +322,17 @@
             // === Event Listeners Setup ===
             searchButton.addEventListener('click', performSearch);
             searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
-            hamburgerMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuDropdown.classList.toggle('show'); });
-            openSidebarBtn.addEventListener('click', () => { closeDropdown(); sidebar.classList.add('open'); });
-            openBookReadModalBtn.addEventListener('click', () => { closeDropdown(); openBookReadModal(); });
-            const closeSidebarBtn = document.querySelector('#mySidebar .closebtn');
+            
+            function toggleMenu() {
+                menuDropdown.classList.toggle('show');
+                menuOverlay.classList.toggle('show');
+            }
+            hamburgerMenuBtn.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+
+            openSidebarBtn.addEventListener('click', () => { toggleMenu(); sidebar.classList.add('open'); });
+            openBookReadModalBtn.addEventListener('click', () => { toggleMenu(); openBookReadModal(); });
+            const closeSidebarBtn = document.querySelector('#sidebar .closebtn');
             if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', () => sidebar.classList.remove('open'));
             if(resetFiltersBtn) resetFiltersBtn.addEventListener('click', resetFilters);
             gematriaModeToggle.addEventListener('click', () => {
@@ -480,7 +340,7 @@
                 gematriaToggleText.textContent = isGematriaSearchActive ? 'בטל גימטריה' : 'חיפוש גימטריה';
                 searchInput.placeholder = isGematriaSearchActive ? 'הזן ערך גימטרי (מספר או מילים)' : 'הזן מילים לחיפוש';
                 if (isGematriaSearchActive) wholeWordToggle.checked = false;
-                closeDropdown();
+                toggleMenu();
             });
             wholeWordToggle.addEventListener('change', () => {
                 if(wholeWordToggle.checked) {
@@ -505,20 +365,13 @@
             const decreaseReaderFontBtn = document.getElementById('decreaseReaderFont');
             const increaseReaderFontBtn = document.getElementById('increaseReaderFont');
             
-            function initializeFontSizes() {
-                updateFontSizeDisplay('results');
-                updateFontSizeDisplay('reader');
-            }
-
+            function initializeFontSizes() { updateFontSizeDisplay('results'); updateFontSizeDisplay('reader'); }
             function updateFontSizeDisplay(target) {
                 const root = document.documentElement;
                 const multiplier = parseFloat(root.style.getPropertyValue(`--${target}-font-size-multiplier`) || 1);
                 const valueElement = document.getElementById(`${target}FontSizeValue`);
-                if (valueElement) {
-                    valueElement.textContent = `${Math.round(multiplier * 100)}%`;
-                }
+                if (valueElement) { valueElement.textContent = `${Math.round(multiplier * 100)}%`; }
             }
-
             function changeFontSize(target, change) {
                 const root = document.documentElement;
                 const multiplier = parseFloat(root.style.getPropertyValue(`--${target}-font-size-multiplier`) || 1);
@@ -528,21 +381,18 @@
                 root.style.setProperty(`--${target}-font-size-multiplier`, newMultiplier.toFixed(2));
                 updateFontSizeDisplay(target);
             }
-
             if(decreaseResultsFontBtn) decreaseResultsFontBtn.addEventListener('click', () => changeFontSize('results', -0.1));
             if(increaseResultsFontBtn) increaseResultsFontBtn.addEventListener('click', () => changeFontSize('results', 0.1));
             if(decreaseReaderFontBtn) decreaseReaderFontBtn.addEventListener('click', () => changeFontSize('reader', -0.1));
             if(increaseReaderFontBtn) increaseReaderFontBtn.addEventListener('click', () => changeFontSize('reader', 0.1));
-
             initializeFontSizes();
 
             // === UI Functions ===
             function enterFocusMode() {
                 if (resultsContainer.innerHTML.trim() === "") return;
-                closeDropdown(); document.body.classList.add('focus-mode'); focusModeContent.innerHTML = resultsContainer.innerHTML;
+                toggleMenu(); document.body.classList.add('focus-mode'); focusModeContent.innerHTML = resultsContainer.innerHTML;
             }
             window.exitFocusMode = () => document.body.classList.remove('focus-mode');
-            function closeDropdown() { menuDropdown.classList.remove('show'); }
             window.closeModal = (modalId) => document.getElementById(modalId).style.display = 'none';
             function resetFilters() {
                 document.querySelectorAll('#bookList input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
@@ -550,7 +400,6 @@
             }
             
             document.addEventListener('click', (event) => {
-                if (menuDropdown.classList.contains('show') && !menuDropdown.contains(event.target) && !hamburgerMenuBtn.contains(event.target)) closeDropdown();
                 if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !openSidebarBtn.contains(event.target)) sidebar.classList.remove('open');
             });
             window.addEventListener('click', (event) => {
@@ -574,7 +423,37 @@
             }
             populateBookList();
 
-            function openBookReadModal() {
+            // === Search History Functions ===
+            function getSearchHistory() { return JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY)) || []; }
+            function saveSearchTerm(term) {
+                let history = getSearchHistory();
+                if (history[0] === term) return; 
+                history = history.filter(t => t !== term);
+                history.unshift(term);
+                if (history.length > 7) history.pop();
+                localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history));
+            }
+            function renderSearchHistory() {
+                const history = getSearchHistory();
+                searchHistoryList.innerHTML = '';
+                if (history.length === 0) {
+                    searchHistoryList.innerHTML = `<li style="cursor:default; color:#7f8c8d;">אין היסטוריה</li>`;
+                    return;
+                }
+                history.forEach(term => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas fa-history"></i> ${term}`;
+                    li.addEventListener('click', () => {
+                        searchInput.value = term;
+                        performSearch();
+                        toggleMenu();
+                    });
+                    searchHistoryList.appendChild(li);
+                });
+            }
+            renderSearchHistory();
+
+            async function openBookReadModal() {
                 if(!readBookList) return; readBookList.innerHTML = '';
                 for (const bookDisplayName in bookMapping) {
                     const li = document.createElement('li');
@@ -602,19 +481,42 @@
             // === Text Processing Helper Functions ===
             function displayText(text) { return text.replace(/-+/g, ' ').replace(/{[^}]*}/g, '').replace(/[;.]/g, ''); }
             function cleanTextForSearch(text) { return text.replace(/<[^>]*>/g, '').replace(/[\u0590-\u05CF]/g, '').trim(); }
-            function cleanTextForGematria(text) { return text.replace(/<[^>]*>|[.,;'"!?()[\]{}]/g, '').replace(/-/g, ' ').replace(/\s+/g, ' ').trim(); }
+            function cleanTextForGematria(text) { return text.replace(/<[^>]*>|[.,:;'"!?()[\]{}]/g, '').replace(/-/g, ' ').replace(/\s+/g, ' ').trim(); }
             function calculateGematria(word) { return [...word].reduce((sum, char) => sum + (gematriaValues[char] || 0), 0); }
             
             // === Main Search Function ===
             async function performSearch() {
                 const searchTerm = searchInput.value.trim();
                 if (!searchTerm) return;
+                
+                saveSearchTerm(searchTerm);
+                renderSearchHistory();
+
                 resultsContainer.innerHTML = ''; loadingIndicator.style.display = 'block';
                 let foundCount = 0;
                 
                 const selectedBooks = Array.from(document.querySelectorAll('#bookList input:checked')).map(cb => cb.value);
                 let filesToSearch = selectedBooks.length > 0 ? selectedBooks.flatMap(book => bookMapping[book]) : Object.values(bookMapping).flat();
                 
+                // === NEW: Advanced Search Logic ===
+                let searchType = 'SIMPLE';
+                let terms = [];
+                let highlightTerms = [];
+
+                if (searchTerm.includes(' וגם ')) {
+                    searchType = 'AND';
+                    terms = searchTerm.split(' וגם ').map(t => t.trim()).filter(t => t);
+                    highlightTerms = terms;
+                } else if (searchTerm.includes(' לא ')) {
+                    searchType = 'NOT';
+                    terms = searchTerm.split(' לא ').map(t => t.trim()).filter(t => t);
+                    highlightTerms = [terms[0]]; // Only highlight the term that should be present
+                } else {
+                    terms = [searchTerm];
+                    highlightTerms = [searchTerm];
+                }
+
+                let results = [];
                 try {
                     for (const bookFileName of filesToSearch) {
                         const response = await fetch(BOOK_FILES_PATH + bookFileName);
@@ -625,79 +527,86 @@
                         for (let i = 1; i < parts.length; i += 2) {
                             const verseLocation = parts[i].trim();
                             const originalVerseText = parts[i+1] ? parts[i+1].trim() : '';
+                            const verseCleanedText = cleanTextForSearch(originalVerseText);
+                            let match = false;
 
-                            if (isGematriaSearchActive) {
-                                let targetGematriaValue = /^\d+$/.test(searchTerm) ? parseInt(searchTerm) : calculateGematria(searchTerm);
-                                const verseWords = cleanTextForGematria(originalVerseText).split(' ');
-                                let foundPhrases = [];
-                                for (let j = 0; j < verseWords.length; j++) {
-                                    let currentSum = 0;
-                                    for (let k = j; k < verseWords.length; k++) {
-                                        currentSum += calculateGematria(verseWords[k]);
-                                        if (currentSum === targetGematriaValue) {
-                                            foundPhrases.push(verseWords.slice(j, k + 1).join(' '));
-                                        }
-                                        if (currentSum >= targetGematriaValue) break;
+                            const createRegex = (term) => wholeWordToggle.checked 
+                                ? new RegExp(`(^|[\\s,-])${cleanTextForSearch(term).replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1')}([\\s,-]|$)`, 'i') 
+                                : new RegExp(cleanTextForSearch(term).replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'), 'i');
+
+                            switch (searchType) {
+                                case 'AND':
+                                    match = terms.every(term => createRegex(term).test(verseCleanedText));
+                                    break;
+                                case 'NOT':
+                                    if (terms.length === 2) {
+                                        match = createRegex(terms[0]).test(verseCleanedText) && !createRegex(terms[1]).test(verseCleanedText);
                                     }
-                                }
-                                if (foundPhrases.length > 0) {
-                                    foundCount++;
-                                    displayVerseCard(bookName, verseLocation, originalVerseText, foundPhrases, bookFileName, true, targetGematriaValue);
-                                }
-                            } else {
-                                const searchWords = cleanTextForSearch(searchTerm);
-                                const verseCleanedText = cleanTextForSearch(originalVerseText);
-                                const regex = wholeWordToggle.checked 
-                                    ? new RegExp(`(^|[\\s,-])${searchWords.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1')}([\\s,-]|$)`, 'i') 
-                                    : new RegExp(searchWords.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'), 'i');
-                                if (regex.test(verseCleanedText)) {
-                                    foundCount++;
-                                    displayVerseCard(bookName, verseLocation, originalVerseText, searchWords, bookFileName, false);
-                                }
+                                    break;
+                                case 'SIMPLE':
+                                default:
+                                    match = createRegex(terms[0]).test(verseCleanedText);
+                                    break;
+                            }
+
+                            if (match) {
+                                foundCount++;
+                                results.push({ bookName, verseLocation, originalVerseText, highlightTerm: highlightTerms, bookFileName, isGematria: false });
                             }
                         }
                     }
                     
+                    loadingIndicator.style.display = 'none';
                     const resultsHeader = document.createElement('div');
                     resultsHeader.className = 'results-header';
-                    const modeText = isGematriaSearchActive ? `גימטריה: ${searchTerm}` : `חיפוש ${wholeWordToggle.checked ? 'מילה שלמה' : 'תת-מילה'}`;
-                    resultsHeader.innerHTML = `<h3>נמצאו ${foundCount} תוצאות</h3><div class="search-mode">${modeText}</div>`;
+                    resultsHeader.innerHTML = `<h3>נמצאו ${foundCount} תוצאות</h3><div class="search-mode">חיפוש מתקדם</div>`;
                     resultsContainer.prepend(resultsHeader);
-                    if (foundCount === 0) resultsContainer.innerHTML = `<p style="text-align: center; color: #7f8c8d;">לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
+                    
+                    if (foundCount > 0) {
+                        results.forEach((result, index) => {
+                            displayVerseCard(result, index);
+                        });
+                    } else {
+                        resultsContainer.innerHTML += `<p style="text-align: center; color: #7f8c8d;">לא נמצאו תוצאות עבור '${searchTerm}'.</p>`;
+                    }
 
-                } catch (error) { resultsContainer.innerHTML = `<p style="text-align: center; color: red;">אירעה שגיאה: ${error.message}</p>`; } 
-                finally { loadingIndicator.style.display = 'none'; }
+                } catch (error) { 
+                    loadingIndicator.style.display = 'none';
+                    resultsContainer.innerHTML = `<p style="text-align: center; color: red;">אירעה שגיאה: ${error.message}</p>`; 
+                }
             }
 
-            function displayVerseCard(bookName, verseLocation, verseText, highlightTerm, bookFileName, isGematria, gematriaValue) {
+            function displayVerseCard(resultData, index) {
+                const { bookName, verseLocation, originalVerseText, highlightTerm, bookFileName, isGematria, gematriaValue } = resultData;
                 const verseCard = document.createElement('div');
                 verseCard.className = 'verse-card';
                 const locationHTML = isGematria ? `${bookName} | ${verseLocation} <span class="gematria-value">(ערך: ${gematriaValue})</span>` : `${bookName} | ${verseLocation}`;
                 verseCard.innerHTML = `<div class="verse-location">${locationHTML}</div><div class="verse-text"></div>`;
                 const verseTextElem = verseCard.querySelector('.verse-text');
                 
-                let textForDisplay = displayText(verseText);
+                let textForDisplay = displayText(originalVerseText);
                 let highlightedText = textForDisplay;
 
-                if (isGematria && Array.isArray(highlightTerm)) {
-                    highlightTerm.forEach(phrase => {
-                        const flexiblePhrase = phrase.split('').join('[\\u0590-\\u05CF]*');
-                        const regex = new RegExp(`(${flexiblePhrase})`, 'g');
-                        highlightedText = highlightedText.replace(regex, `<span class="gematria-word">$1</span>`);
-                    });
-                } else if (!isGematria) {
-                    const flexibleHighlight = highlightTerm.split('').join('[\\u0590-\\u05CF]*');
+                const termsToHighlight = Array.isArray(highlightTerm) ? highlightTerm : [highlightTerm];
+
+                termsToHighlight.forEach(term => {
+                    const flexibleHighlight = cleanTextForSearch(term).split('').join('[\\u0590-\\u05CF]*');
                     if (wholeWordToggle.checked) {
                         const regex = new RegExp(`(^|[\\s,-])(${flexibleHighlight})([\\s,-]|$)`, 'gi');
-                        highlightedText = textForDisplay.replace(regex, `$1<span class="highlight">$2</span>$3`);
+                        highlightedText = highlightedText.replace(regex, `$1<span class="highlight">$2</span>$3`);
                     } else {
                         const regex = new RegExp(`(${flexibleHighlight})`, 'gi');
-                        highlightedText = textForDisplay.replace(regex, `<span class="highlight">$1</span>`);
+                        highlightedText = highlightedText.replace(regex, `<span class="highlight">$1</span>`);
                     }
-                }
+                });
                 
                 verseTextElem.innerHTML = highlightedText;
                 resultsContainer.appendChild(verseCard);
+                
+                setTimeout(() => {
+                    verseCard.classList.add('visible');
+                }, index * 100);
+
                 verseCard.addEventListener('click', () => openFullTextModal(bookFileName, bookName));
             }
 
